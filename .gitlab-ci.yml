@@ -1,0 +1,20 @@
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+  - template: License-Scanning.gitlab-ci.yml
+
+image: node:latest
+
+stages:
+  - test
+  - checks
+
+cache:
+  paths:
+    - node_modules/
+    
+Test:
+  stage: checks
+  script:
+    - yarn install
+    - yarn test
