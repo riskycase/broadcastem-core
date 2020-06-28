@@ -55,7 +55,7 @@ describe('When sharing from a list', () => {
 	before(function (done){
 		require('../index').init({
 			input: [],
-			flags: {destination: 'dummy/uploads', list: 'dummy/dummy-list.txt'}
+			flags: {destination: 'dummy/uploads', list: 'dummy/dummy-list.txt', verbose: true}
 		})
 		.then((generatedApp) => {
 			app = generatedApp;

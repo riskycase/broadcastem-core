@@ -16,5 +16,5 @@ cache:
 Test:
   stage: checks
   script:
-    - yarn install
+    - yarn install --frozen-lockfile
     - yarn test

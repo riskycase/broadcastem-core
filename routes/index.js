@@ -2,8 +2,7 @@ const router = require('express').Router();
 const storage = require('../middleware/storage');
 
 /* GET home page. */
-router.get('/', function(req, res) {
-	console.log('called')
+router.get('/', function(req, res, next) {
 	const rows = storage.getRows();
 	if(rows.length > 0) res.render('index', { lines : rows });
 	else res.render('index', { lines : undefined });

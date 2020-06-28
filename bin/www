@@ -20,7 +20,8 @@ const cli = meow(`
 	Options
 	  --destination, -d	PATH	Save uploaded files to folder specified in path (defaults to uploads folder in app directory)
 	  --list, -l		PATH	Read files to share from the list given in path
-	  --port, -p		PORT	Start server on specified port (default 3000)
+	  --port, -p		NUMBER	Start server on specified port (default 3000)
+	  --verbose, -v		Log all requests, not just errors
 
 	Examples
 	  $ npm start 
@@ -41,6 +42,11 @@ const cli = meow(`
 			type: 'number',
 			default: 3000,
 			alias: 'p'
+		},
+		verbose: {
+			type: 'boolean',
+			default: false,
+			alias: 'v'
 		}
 	}
 });

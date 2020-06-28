@@ -13,7 +13,7 @@ describe('Miscalleneous tests', () => {
 		fs.rmdirSync('dummy/uploads', {recursive:true});
 		require('../index').init({
 			input: ['dummy/dummy-folder/dummy-small.txt'],
-			flags: {destination: 'dummy/uploads', list: ''}
+			flags: {destination: 'dummy/uploads', list: '', verbose: true}
 		})
 		.then((generatedApp) => {
 			app = generatedApp;

@@ -55,7 +55,7 @@ describe('When sharing with repititions', () => {
 	before(function (done){
 		require('../index').init({
 			input: ['dummy/dummy-down.txt'],
-			flags: {destination: 'dummy/uploads', list: 'dummy/dummy-list-long.txt'}
+			flags: {destination: 'dummy/uploads', list: 'dummy/dummy-list-long.txt', verbose: true}
 		})
 		.then((generatedApp) => {
 			app = generatedApp;

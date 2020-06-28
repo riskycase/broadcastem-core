@@ -55,7 +55,7 @@ describe('When sharing a single file', () => {
 	before(function (done){
 		require('../index').init({
 			input: ['dummy/dummy-down.txt'],
-			flags: {destination: 'dummy/uploads', list: ''}
+			flags: {destination: 'dummy/uploads', list: '', verbose: true}
 		})
 		.then((generatedApp) => {
 			app = generatedApp;

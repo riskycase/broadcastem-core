@@ -1,13 +1,13 @@
-# ![Logo](./icon-64x64.png) Broadcast 'em
+# ![Logo](./icon-64x64.png) Broadcast 'em Core
 A file server based on node.js that allows sharing files over HTTP on the same
  local network, and possibly over the internet if bridging is used
 
 ## Badges
-[![Build Status](https://travis-ci.com/riskycase/file-server.svg?branch=master)](https://travis-ci.com/riskycase/file-server)
-[![Coverage report](https://gitlab.com/riskycase/file-server/badges/master/coverage.svg)](https://gitlab.com/riskycase/file-server/-/commits/master)
-[![Depfu](https://badges.depfu.com/badges/676150a60ab4fce2f90451fc5422a308/status.svg)](https://depfu.com)
-[![Depfu](https://badges.depfu.com/badges/676150a60ab4fce2f90451fc5422a308/overview.svg)](https://depfu.com/gitlab/riskycase/file-server?project_id=12583)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1211097ff94e3af18c35/maintainability)](https://codeclimate.com/github/riskycase/file-server/maintainability)
+![Build Status](https://travis-ci.com/riskycase/broadcastem-core.svg?branch=trunk)](https://travis-ci.com/riskycase/broadcastem-core)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/39ae668e4b548ac882d5/test_coverage)](https://codeclimate.com/github/riskycase/broadcastem-core/test_coverage)
+![Depfu](https://badges.depfu.com/badges/676150a60ab4fce2f90451fc5422a308/status.svg)](https://depfu.com)
+![Depfu](https://badges.depfu.com/badges/676150a60ab4fce2f90451fc5422a308/overview.svg)](https://depfu.com/gitlab/riskycase/file-server?project_id=12583)
+[![Maintainability](https://api.codeclimate.com/v1/badges/39ae668e4b548ac882d5/maintainability)](https://codeclimate.com/github/riskycase/broadcastem-core/maintainability)
 
 ## Setup
 

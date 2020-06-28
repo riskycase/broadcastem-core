@@ -1,16 +1,16 @@
 {
 	"name": "broadcastem-core",
-	"version": "1.1.0",
+	"version": "1.0.1",
 	"description": "The core module for Broadcast 'em application",
 	"main": "index.js",
 	"scripts": {
 		"start": "node ./bin/www",
 		"test": "nyc --reporter=text mocha tests/*.js"
 	},
-    "repository": {
+	"repository": {
 		"type": "git",
 		"url": "https://gitlab.com/riskycase/broadcast-em-core.git"
-    },
+	},
 	"bin": "./bin/www",
 	"author": "Hrishikesh Patil <hrishikeshpatil.754@gmail.com> (https://riskycase.netlify.app/)",
 	"license": "MIT",
