@@ -2,7 +2,13 @@
 	"name": "broadcastem-core",
 	"version": "1.0.2",
 	"description": "The core module for Broadcast 'em application",
-	"keywords": ["broadcast", "share", "local network", "file share", "cli"],
+	"keywords": [
+		"broadcast",
+		"share",
+		"local network",
+		"file share",
+		"cli"
+	],
 	"main": "index.js",
 	"scripts": {
 		"start": "node ./bin/www",
@@ -30,7 +36,7 @@
 		"chai": "^4.2.0",
 		"chai-http": "^4.3.0",
 		"eslint": "^7.0.0",
-		"mocha": "^7.1.2",
+		"mocha": "^8.0.1",
 		"nyc": "^15.0.1"
 	}
 }
