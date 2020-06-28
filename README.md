@@ -3,9 +3,14 @@ A file server based on node.js that allows sharing files over HTTP on the same
  local network, and possibly over the internet if bridging is used
 
 ## Badges
-[![Build Status](https://travis-ci.com/riskycase/broadcastem-core.svg?branch=trunk)](https://travis-ci.com/riskycase/broadcastem-core)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/39ae668e4b548ac882d5/test_coverage)](https://codeclimate.com/github/riskycase/broadcastem-core/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/39ae668e4b548ac882d5/maintainability)](https://codeclimate.com/github/riskycase/broadcastem-core/maintainability)
+[![Test Status](https://gitlab.com/riskycase/broadcastem-core/badges/trunk/pipeline.svg?key_text=Tests&key_width=35)](https://gitlab.com/riskycase/broadcastem-core)
+[![Test Coverage](https://gitlab.com/riskycase/broadcastem-core/badges/trunk/coverage.svg?key_text=Code%20coverage&key_width=90)](https://gitlab.com/riskycase/broadcastem-core)
+[![Libraries.io dependency status - latest release](https://img.shields.io/librariesio/release/npm/broadcastem-core?label=Dependencies%20%28published%20version%29)](https://libraries.io/npm/broadcastem-core)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/riskycase/broadcastem-core?label=Maintainability)](https://codeclimate.com/github/riskycase/broadcastem-core)
+[![npm total downloads](https://img.shields.io/npm/dt/broadcastem-core?label=Total%20Downloads&logo=npm)](https://www.npmjs.com/package/broadcastem-core)
+[![NPM](https://img.shields.io/npm/l/broadcastem-core?color=blue)](https://en.wikipedia.org/wiki/MIT_License)
+[![npm](https://img.shields.io/npm/v/broadcastem-core?label=Latest%20Version)](https://www.npmjs.com/package/broadcastem-core)
+[![Shields.io](https://img.shields.io/badge/Badge%20Provider-Shields.io-brightgreen)](https://shields.io/)
 
 ## Setup
 
