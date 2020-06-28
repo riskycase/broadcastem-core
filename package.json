@@ -1,7 +1,8 @@
 {
 	"name": "broadcastem-core",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "The core module for Broadcast 'em application",
+	"keywords": ["broadcast", "share", "local network", "file share", "cli"],
 	"main": "index.js",
 	"scripts": {
 		"start": "node ./bin/www",
