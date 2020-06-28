@@ -16,7 +16,7 @@ describe('When not sharing anything', () => {
 	before(function (done){
 		require('../index').init({
 			input: [],
-			flags: {destination: 'dummy/uploads', list: '', verbose: true}
+			flags: {destination: 'dummy/uploads', list: '', verbose: false}
 		})
 		.then((generatedApp) => {
 			app = generatedApp;

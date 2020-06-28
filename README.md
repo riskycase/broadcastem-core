@@ -3,24 +3,21 @@ A file server based on node.js that allows sharing files over HTTP on the same
  local network, and possibly over the internet if bridging is used
 
 ## Badges
-![Build Status](https://travis-ci.com/riskycase/broadcastem-core.svg?branch=trunk)](https://travis-ci.com/riskycase/broadcastem-core)
+[![Build Status](https://travis-ci.com/riskycase/broadcastem-core.svg?branch=trunk)](https://travis-ci.com/riskycase/broadcastem-core)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/39ae668e4b548ac882d5/test_coverage)](https://codeclimate.com/github/riskycase/broadcastem-core/test_coverage)
-![Depfu](https://badges.depfu.com/badges/676150a60ab4fce2f90451fc5422a308/status.svg)](https://depfu.com)
-![Depfu](https://badges.depfu.com/badges/676150a60ab4fce2f90451fc5422a308/overview.svg)](https://depfu.com/gitlab/riskycase/file-server?project_id=12583)
 [![Maintainability](https://api.codeclimate.com/v1/badges/39ae668e4b548ac882d5/maintainability)](https://codeclimate.com/github/riskycase/broadcastem-core/maintainability)
 
 ## Setup
 
-* Make sure node.js is installed along with npm, and yarn is available (npm 
-install -g yarn)
-* Open a command line tool (Command Prompt or Powershell for Windows and bash
-shell in Linux)
-* Clone the repo `git clone https://github.com/riskycase/file-server.git` or 
-your own fork
-* Navigate to the folder `cd file-server`
-* Install all dependencies `yarn install`
-* Start the server using the inbuilt script `npm start`
-* Open a browser and go to `localhost:3000` to make sure everything is working
+Install using 
+* npm
+```
+	npm i broadcastem-core -g
+```
+* yarn
+```
+	yarn global add broadcastem-core
+```
 
 ## Usage
 
@@ -34,10 +31,13 @@ your own fork
 	Options
 	  --destination, -d	PATH	Save uploaded files to folder specified in path (defaults to uploads folder in app directory)
 	  --list, -l		PATH	Read files to share from the list given in path
-	  --port, -p		PORT	Start server on specified port (default 3000)
+	  --port, -p		NUMBER	Start server on specified port (default 3000)
+	  --verbose, -v				Log all requests, not just errors
+	  --help					Print this message and exit
+	  --version					Show version number and exit
 
 	Examples
-	  $ npm start 
+	  $ npm start  
 ```
 
 * Start the server from the usage options given

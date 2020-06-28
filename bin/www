@@ -22,6 +22,8 @@ const cli = meow(`
 	  --list, -l		PATH	Read files to share from the list given in path
 	  --port, -p		NUMBER	Start server on specified port (default 3000)
 	  --verbose, -v		Log all requests, not just errors
+	  --help		Print this message and exit
+	  --version		Show version number and exit
 
 	Examples
 	  $ npm start 
