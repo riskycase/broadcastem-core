@@ -1,6 +1,7 @@
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
   - template: SAST.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml 
   - template: License-Scanning.gitlab-ci.yml
 
 image: node:latest
@@ -15,6 +16,12 @@ cache:
     
 Test:
   stage: checks
-  script:
+  before_script:
+    - yarn global add nyc
     - yarn install --frozen-lockfile
-    - yarn test
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - ./cc-test-reporter before-build
+  script:
+    - nyc --reporter=lcov yarn test
+    - ./cc-test-reporter after-build --exit-code 0 
