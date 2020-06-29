@@ -30,7 +30,7 @@ Install using
 
 ```
 	Usage
-	  $ npm start [options] [files]
+	  $ broadcastem-core [options] [files]
 	  files is an array of paths to files you want to share
 
 	Options
@@ -42,7 +42,7 @@ Install using
 	  --version					Show version number and exit
 
 	Examples
-	  $ npm start  
+	  $ broadcastem-core  
 ```
 
 * Start the server from the usage options given
