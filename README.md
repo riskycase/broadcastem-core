@@ -1,4 +1,4 @@
-# ![Logo](./icon-64x64.png) Broadcast 'em Core
+# ![Logo](https://i.imgur.com/JAukmcD.png) Broadcast 'em Core
 A file server based on node.js that allows sharing files over HTTP on the same
  local network, and possibly over the internet if bridging is used
 
