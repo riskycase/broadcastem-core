@@ -4,24 +4,47 @@ include:
   - template: Code-Quality.gitlab-ci.yml 
   - template: License-Scanning.gitlab-ci.yml
 
-image: node:latest
 
 stages:
+  - testing
   - test
-  - checks
-
-cache:
-  paths:
-    - node_modules/
     
-Test:
-  stage: checks
+Test Latest:
+  cache:
+    key: node_modules-latest
+    paths:
+      - node_modules/
+  image: node:latest
+  stage: testing
   before_script:
-    - yarn global add nyc
+    - yarn global add nyc mocha-junit-reporter
+    - yarn install --frozen-lockfile
+  script:
+    - nyc --reporter=text yarn test --reporter mocha-junit-reporter
+  artifacts:
+    reports:
+      junit: test-results.xml
+    
+Test LTS:
+  cache:
+    key: node_modules-lts
+    paths:
+      - node_modules/
+  image: node:lts
+  stage: testing
+  before_script:
+    - yarn global add nyc mocha-junit-reporter
     - yarn install --frozen-lockfile
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
     - ./cc-test-reporter before-build
   script:
-    - nyc --reporter=lcov yarn test
+    - nyc --silent yarn test --reporter mocha-junit-reporter
+    - nyc report --reporter=text
+    - nyc report --reporter=lcov
+    - nyc report --reporter=cobertura
     - ./cc-test-reporter after-build --exit-code 0 
+  artifacts:
+    reports:
+      cobertura: coverage/cobertura-coverage.xml
+      junit: test-results.xml

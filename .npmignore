@@ -68,6 +68,9 @@ uploads/*
 tests/*
 dummy/*
 
+#Junit test results
+test-results.xml
+
 # Config files unnecessary for running
 *.yml
 .eslint.rc

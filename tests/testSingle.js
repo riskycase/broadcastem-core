@@ -126,7 +126,7 @@ describe('When sharing a single file', () => {
 		testInvalidDownload(done, '2');
 	});
 	
-	it('it should download a zip with name allFiles.zip', downloadAllTest);
+	it('it should download a zip with name allFiles.zip at the end', downloadAllTest);
 	
 	after(function(done) {
 		delete require.cache[require.resolve('../index')];

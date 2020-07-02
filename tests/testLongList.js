@@ -159,7 +159,7 @@ describe('When sharing with repititions', () => {
 		});
 	});
 	
-	it('it should download a zip with name allFiles.zip', downloadAllTest);
+	it('it should download a zip with name allFiles.zip at the end', downloadAllTest);
 	
 	after(function(done) {
 		delete require.cache[require.resolve('../index')];

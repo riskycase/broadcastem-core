@@ -66,3 +66,6 @@ uploads/*
 
 # test uploads
 dummy/uploads/*
+
+#Junit test results
+test-results.xml
