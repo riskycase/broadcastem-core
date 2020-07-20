@@ -1,0 +1,3 @@
+dummy/dummy-down.txt
+dummy/dummy-folder
+dummy/I/dont/exist

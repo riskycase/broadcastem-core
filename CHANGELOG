@@ -1,3 +1,13 @@
+v2.0.0
+
+Use yargs as the parse instead of meow
+Accept all types of requests on supported paths so they can error with 400 instead of 404
+Use Promise syntax for the core running of the application
+Replace depencency with a self written code to calculate the sizes of files
+Replace single middleware file with multple smaller files with one type of job per file
+Options object while calling the init method is now optional
+Code is now commented at necessary places
+
 v1.0.4
 
 Fix README.md

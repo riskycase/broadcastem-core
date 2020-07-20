@@ -26,30 +26,18 @@ Install using
 
 ## Usage
 
-### Options
-
-```
-	Usage
-	  $ broadcastem-core [options] [files]
-	  files is an array of paths to files you want to share
-
-	Options
-	  --destination, -d	PATH	Save uploaded files to folder specified in path (defaults to uploads folder in app directory)
-	  --list, -l		PATH	Read files to share from the list given in path
-	  --port, -p		NUMBER	Start server on specified port (default 3000)
-	  --verbose, -v				Log all requests, not just errors
-	  --help					Print this message and exit
-	  --version					Show version number and exit
-
-	Examples
-	  $ broadcastem-core  
+```shell
+$ broadcastem-core  
 ```
 
-* Start the server from the usage options given
-* Get the IP address of the current device (which is host) on the local network
-(let us assume it to be `192.168.1.2`)
-* On another device present on the same network, open the following link:
-`(IP address):(port)` (here `192.168.1.2:3000`)
-* Download the files shared and/or upload any files you want to share to the 
-host device
-* Retrieve the files sent from the uploads folder
+## Documentation
+[Wiki](https://gitlab.com/riskycase/broadcastem-core/-/wikis/Home)
+
+## License
+Copyright 2020 Hrishikesh Patil
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

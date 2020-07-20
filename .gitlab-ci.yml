@@ -20,7 +20,9 @@ Test Latest:
     - yarn global add nyc mocha-junit-reporter
     - yarn install --frozen-lockfile
   script:
-    - nyc --reporter=text yarn test --reporter mocha-junit-reporter
+    - nyc --silent yarn test:API --reporter mocha-junit-reporter
+    - nyc --silent --no-clean yarn test:Startup --reporter mocha-junit-reporter
+    - nyc report --reporter=text
   artifacts:
     reports:
       junit: test-results.xml
@@ -39,7 +41,8 @@ Test LTS:
     - chmod +x ./cc-test-reporter
     - ./cc-test-reporter before-build
   script:
-    - nyc --silent yarn test --reporter mocha-junit-reporter
+    - nyc --silent yarn test:API --reporter mocha-junit-reporter
+    - nyc --silent --no-clean yarn test:Startup --reporter mocha-junit-reporter
     - nyc report --reporter=text
     - nyc report --reporter=lcov
     - nyc report --reporter=cobertura

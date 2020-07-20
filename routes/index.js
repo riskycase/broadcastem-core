@@ -1,23 +1,19 @@
 const router = require('express').Router();
-const storage = require('../middleware/storage');
+const downloadManager = require('../middleware/downloadManager');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-	const rows = storage.getRows();
-	if(rows.length > 0) res.render('index', { lines : rows });
-	else res.render('index', { lines : undefined });
-});
-
-/* POST home page. */
-router.post('/', storage.saveFiles , (req, res, next) => {
-	const files = req.files;
-	if (!files) {
-		const error = new Error('Please choose files');
+router.all('/', function(req, res, next) {
+	if(req.method === 'GET') {
+		// Gets the information of the files which can be downloaded
+		const rows = downloadManager.getRows();
+		if(rows.length > 0) res.render('index', { lines : rows });
+		else res.render('index', { lines : undefined });
+	}
+	else {
+		const error = new Error('Only GET requests are allowed on this route');
 		error.status = 400;
 		return next(error);
 	}
-	storage.updateRows(files);
-	res.send(files);
 });
 
 module.exports = router;

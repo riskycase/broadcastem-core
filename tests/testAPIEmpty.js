@@ -15,8 +15,7 @@ describe('When not sharing anything', () => {
 
 	before(function (done){
 		require('../index').init({
-			input: [],
-			flags: {destination: 'dummy/uploads', list: '', verbose: false}
+			destination: 'dummy/uploads'
 		})
 		.then((generatedApp) => {
 			app = generatedApp;
@@ -44,7 +43,7 @@ describe('When not sharing anything', () => {
 	
 	it('it should not open any download with data specified', (done) => {
 		chai.request(app)
-		.get('/download/single')
+		.get('/download/specific')
 		.query({
 			index: '0'
 		})
@@ -56,23 +55,21 @@ describe('When not sharing anything', () => {
 
 	it('it should upload a file', (done) => {
 		chai.request(app)
-		.post('/')
+		.post('/upload')
 		.set('Content-Type', 'multipart/form-data')
 		.attach('files[]', fs.readFileSync('dummy/dummy-up.txt'), 'dummy-up.txt')
 		.end((err, res) => {
 			res.should.have.property('status',200);
 			res.body.should.be.an('array');
 			res.body[0].should.have.property('size', upFileSize);
-			res.body[0].should.have.property('filename', 'dummy-up.txt');
-			res.body[0].should.have.property('path', path.join('dummy', 'uploads', 'dummy-up.txt'));
-			res.body[0].should.have.property('destination', 'dummy/uploads');
+			res.body[0].should.have.property('name', 'dummy-up.txt');
 			done();
 		});
 	});
 	
 	it('it should not accept empty upload', (done) => {
 		chai.request(app)
-		.post('/')
+		.post('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
 			done();
@@ -81,7 +78,7 @@ describe('When not sharing anything', () => {
 	
 	it('it should download uploaded file', (done) => {
 		chai.request(app)
-		.get('/download/single')
+		.get('/download/specific')
 		.query({
 			index: '0'
 		})
@@ -96,7 +93,7 @@ describe('When not sharing anything', () => {
 	
 	it('it should not open any download other than shared file', (done) => {
 		chai.request(app)
-		.get('/download/single')
+		.get('/download/specific')
 		.query({
 			index: '1'
 		})
@@ -116,11 +113,6 @@ describe('When not sharing anything', () => {
 			res.header.should.have.property('transfer-encoding', 'chunked');
 			done();
 		});
-	});
-	
-	after(function(done) {
-		delete require.cache[require.resolve('../index')];
-		done();
 	});
 	
 });

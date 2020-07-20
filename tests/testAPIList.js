@@ -25,7 +25,7 @@ function downloadAllTest(done) {
 
 function testValidDownload (done, index) {
 	chai.request(app)
-	.get('/download/single')
+	.get('/download/specific')
 	.query({
 		index: index
 	})
@@ -40,7 +40,7 @@ function testValidDownload (done, index) {
 
 function testInvalidDownload (done, index) {
 	chai.request(app)
-	.get('/download/single')
+	.get('/download/specific')
 	.query({
 		index: index
 	})
@@ -50,12 +50,15 @@ function testInvalidDownload (done, index) {
 	});
 }
 
-describe('When sharing a single file', () => {
+describe('When sharing from a list', () => {
 
 	before(function (done){
 		require('../index').init({
-			input: ['dummy/dummy-down.txt'],
-			flags: {destination: 'dummy/uploads', list: '', verbose: false}
+			files: [],
+			destination: 'dummy/uploads', 
+			list: 'dummy/dummy-list.txt', 
+			restart: true,
+			loggingLevel: 0
 		})
 		.then((generatedApp) => {
 			app = generatedApp;
@@ -78,29 +81,42 @@ describe('When sharing a single file', () => {
 		testValidDownload(done, '0');
 	});
 	
+	it('it should download a zip with name dummy-folder.zip', (done) => {
+		chai.request(app)
+	.get('/download/specific')
+	.query({
+		index: '1'
+	})
+		.end((err, res) => {
+			res.should.have.property('status',200);
+			res.header.should.have.property('content-type', 'application/zip');
+			res.header.should.have.property('content-disposition', 'attachment; filename="dummy-folder.zip"');
+			res.header.should.have.property('transfer-encoding', 'chunked');
+			done();
+		});
+	});
+	
 	it('it should not download invalid file', (done) => {
-		testInvalidDownload(done, '1');
+		testInvalidDownload(done, '2');
 	});
 
 	it('it should upload a file', (done) => {
 		chai.request(app)
-		.post('/')
+		.post('/upload')
 		.set('Content-Type', 'multipart/form-data')
 		.attach('files[]', fs.readFileSync('dummy/dummy-up.txt'), 'dummy-up.txt')
 		.end((err, res) => {
 			res.should.have.property('status',200);
 			res.body.should.be.an('array');
 			res.body[0].should.have.property('size', upFileSize);
-			res.body[0].should.have.property('filename', 'dummy-up.txt');
-			res.body[0].should.have.property('path', path.join('dummy', 'uploads', 'dummy-up.txt'));
-			res.body[0].should.have.property('destination', 'dummy/uploads');
+			res.body[0].should.have.property('name', 'dummy-up.txt');
 			done();
 		});
 	});
 	
 	it('it should not accept empty upload', (done) => {
 		chai.request(app)
-		.post('/')
+		.post('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
 			done();
@@ -109,9 +125,9 @@ describe('When sharing a single file', () => {
 	
 	it('it should download uploaded file', (done) => {
 		chai.request(app)
-		.get('/download/single')
+		.get('/download/specific')
 		.query({
-			index: '1'
+			index: '2'
 		})
 		.end((err, res) => {
 			res.should.have.property('status',200);
@@ -122,15 +138,25 @@ describe('When sharing a single file', () => {
 		});
 	});
 	
+	it('it should download multiple files', (done) => {
+		chai.request(app)
+		.get('/download/specific')
+		.query({
+			index: '0,1,2'
+		})
+		.end((err, res) => {
+			res.should.have.property('status',200);
+			res.header.should.have.property('content-disposition', 'attachment; filename="variousFiles.zip"');
+			res.header.should.have.property('content-type', 'application/zip');
+			res.header.should.have.property('transfer-encoding', 'chunked');
+			done();
+		});
+	});
+	
 	it('it should not open any download other than shared file', (done) => {
-		testInvalidDownload(done, '2');
+		testInvalidDownload(done, '3');
 	});
 	
 	it('it should download a zip with name allFiles.zip at the end', downloadAllTest);
-	
-	after(function(done) {
-		delete require.cache[require.resolve('../index')];
-		done();
-	});
 	
 });

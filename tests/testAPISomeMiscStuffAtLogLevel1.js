@@ -1,19 +1,22 @@
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var fs = require('fs');
+var devnull = require('dev-null');
 
 chai.use(chaiHttp);
 var should = chai.should();
 
 var app;
 
-describe('Miscalleneous tests', () => {
+describe('Miscalleneous tests - log level 1', () => {
 
 	before(function (done){
 		fs.rmdirSync('dummy/uploads', {recursive:true});
 		require('../index').init({
-			input: ['dummy/dummy-folder/dummy-small.txt'],
-			flags: {destination: 'dummy/uploads', list: '', verbose: true}
+			files: ['dummy/dummy-folder/dummy-small.txt'],
+			destination: 'dummy/uploads', 
+			loggingLevel: 1,
+			stdout: devnull()
 		})
 		.then((generatedApp) => {
 			app = generatedApp;
@@ -52,10 +55,19 @@ describe('Miscalleneous tests', () => {
 			done();
 		});
 	});
-	
-	after(function(done) {
-		delete require.cache[require.resolve('../index')];
-		done();
+
+	it('it should upload a file', (done) => {
+		chai.request(app)
+		.post('/upload')
+		.set('Content-Type', 'multipart/form-data')
+		.attach('files[]', fs.readFileSync('dummy/dummy-up.txt'), 'dummy-up.txt')
+		.end((err, res) => {
+			res.should.have.property('status',200);
+			res.body.should.be.an('array');
+			res.body[0].should.have.property('size', fs.statSync('dummy/dummy-up.txt').size);
+			res.body[0].should.have.property('name', 'dummy-up.txt');
+			done();
+		});
 	});
 	
 });

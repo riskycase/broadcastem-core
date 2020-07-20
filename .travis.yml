@@ -5,4 +5,5 @@ jobs:
       node_js: node
       script:
         - yarn install --frozen-lockfile
-        - yarn test
+        - yarn test:API
+        - yarn test:Startup
