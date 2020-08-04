@@ -1,3 +1,7 @@
+v2.0.1
+
+Update depencencies
+
 v2.0.0
 
 Use yargs as the parse instead of meow
