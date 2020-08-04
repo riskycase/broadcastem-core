@@ -17,12 +17,12 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://gitlab.com/riskycase/broadcast-em-core.git"
+		"url": "https://gitlab.com/riskycase/broadcastem-core.git"
 	},
 	"bin": "./bin/www",
 	"author": "Hrishikesh Patil <hrishikeshpatil.754@gmail.com> (https://riskycase.netlify.app/)",
 	"license": "MIT",
-	"homepage": "https://gitlab.com/riskycase/broadcast-em-core.git",
+	"homepage": "https://gitlab.com/riskycase/broadcastem-core/-/wikis/home",
 	"dependencies": {
 		"ejs": "^3.1.3",
 		"express": "^4.17.1",
