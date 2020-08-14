@@ -1,5 +1,9 @@
 v2.0.1
 
+Fix UIKit dist files not loading by searching for UIKit path directly
+
+v2.0.1
+
 Update depencencies
 
 v2.0.0

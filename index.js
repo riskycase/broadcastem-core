@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const zip = require('express-easy-zip');
 const logger = require('morgan');
+const uikit = require.resolve('uikit');
 
 // Imports all the required routes
 const indexRouter = require('./routes/index');
@@ -28,7 +29,9 @@ function initialize(app) {
 	
 	// Sets Express to serve the fonts, CSS and JS for the websites
 	app.use(express.static(path.join(__dirname, 'public')));
-	app.use(express.static(path.join(__dirname, './node_modules/uikit/dist/')));
+	// Since UIKit directly exports the js file, we take the path of that file
+	// and go two directories up to get the dist folder
+	app.use(express.static(path.resolve(uikit, '..', '..')));
 
 	app.use('/', indexRouter);
 	app.use('/download', downloadRouter);
