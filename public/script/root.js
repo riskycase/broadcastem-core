@@ -6,6 +6,8 @@ const icons = [
 	['file','']
 ];
 
+let indices = [];
+
 function loadFiles() {
 	const xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -41,7 +43,11 @@ function buttonMaker(file) {
 	return `<div class="uk-flex-inline uk-flex-middle uk-background-primary uk-light uk-padding-small">
 		<span uk-icon="icon: ${file.isFolder ? 'folder' : getIcon(file.name)}; ratio: 2"></span>
 		<div class="uk-width-expand" style="padding: 5px">Name: ${file.name} <br>Size: ${humanFileSize(file.size)}</div>
-		<a uk-icon="icon: download" onclick="window.open('download/specific?index=${file.index}', '_self')"></a>
+		<div>
+			<a uk-icon="icon: download" onclick="window.open('download/specific?index=${file.index}', '_self')"></a>
+			<br>
+			<input type="checkbox" class="uk-checkbox" id="checkbox-${file.index}" oninput="checkboxHit(${file.index})">
+		</div>
 	</div>`
 }
 
@@ -49,7 +55,9 @@ function displayFiles(files) {
 	const buttons = files.map(buttonMaker)
 	if(files.length) 
 		document.getElementById('downloadList').innerHTML = `<div class="uk-width-1-1 uk-flex uk-flex-middle uk-flex-right uk-flex-wrap uk-padding-small">
-			<button class="uk-button uk-button-primary" onclick="window.open('download/all', '_self')">Download All</button>
+			<div class="uk-padding-small">Download: </div>
+			<button class="uk-button uk-button-small uk-button-primary" onclick="downloadSelected()" id="selected" style="display: none">Selected</button>
+			<button class="uk-button uk-button-small uk-button-primary" onclick="window.open('download/all', '_self')">All</button>
 		</div>
 		${buttons.join('<br>')}`;
 	else
@@ -101,3 +109,20 @@ UIkit.upload('.js-upload', {
 		loadFiles();
 	}
 });
+
+function downloadSelected() {
+	window.open(`download/specific?index=${indices}`, '_self');
+}
+
+function checkboxHit(id) {
+	if(document.getElementById(`checkbox-${id}`).checked){
+		if(!indices.length) 
+			document.getElementById('selected').style.display = 'inline-block';
+		indices.push(id);
+	}
+	else {
+		indices.splice(indices.indexOf(id), 1);
+		if(!indices.length) 
+			document.getElementById('selected').style.display = 'none';
+	}
+}
