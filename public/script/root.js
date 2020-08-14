@@ -1,9 +1,9 @@
 const icons = [
-	['image','jpg|jpeg|png|dng|bmp|tiff'],
-	['play','mp3|ogg|avi|mp4|flac'],
-	['file-text','txt|doc|docx'],
-	['pdf','pdf'],
-	['file','']
+	['image', ['jpg', 'jpeg', 'png', 'dng', 'bmp', 'tiff']],
+	['play', ['mp3', 'ogg', 'avi', 'mp4', 'flac']],
+	['file-text', ['txt', 'doc', 'docx', 'md', 'xml', 'html', 'htm', 'log']],
+	['database', ['db', 'db3', 'sql', 'sdf']],
+	['pdf', ['pdf']]
 ];
 
 let indices = [];
@@ -36,7 +36,8 @@ function humanFileSize(bytes) {
 
 function getIcon(name) {
 	const extention = name.substring(name.lastIndexOf('.') + 1);
-	return icons.find((value) => extention.match(value[1]))[0];
+	let icon = icons.find((value) => value[1].indexOf(extention) !== -1);
+	return icon ? icon[0] : 'file';
 }
 
 function buttonMaker(file) {
