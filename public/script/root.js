@@ -1,3 +1,5 @@
+// 2D array of icons, each element contains icon id and and array of extentions
+// that will use the corresponding icon
 const icons = [
 	['image', ['jpg', 'jpeg', 'png', 'dng', 'bmp', 'tiff']],
 	['play', ['mp3', 'ogg', 'avi', 'mp4', 'flac']],
@@ -6,8 +8,13 @@ const icons = [
 	['pdf', ['pdf']]
 ];
 
+// Sets a global array to support downloading of multiple files
 let indices = [];
 
+/*
+ * Once page is loaded, queries back the server to check if there are any files
+ * available for download, then displays them accordingly
+ */
 function loadFiles() {
 	const xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -19,6 +26,10 @@ function loadFiles() {
 	xhttp.send();
 }
 
+/*
+ * Takes a number repersenting bytes and convert to human readable format. -1
+ * is server response when the size of that file is still being calculated
+ */
 function humanFileSize(bytes) {
 	if(bytes === -1) return 'Calculating size';
 	const thresh = 1024;
@@ -34,12 +45,21 @@ function humanFileSize(bytes) {
 	return bytes.toFixed(2)+' '+units[u];
 }
 
+/*
+ * Gets extention from name, and then try to find the icon for the
+ * corresponding file. If not found returns generic icon
+ */
 function getIcon(name) {
 	const extention = name.substring(name.lastIndexOf('.') + 1);
 	let icon = icons.find((value) => value[1].indexOf(extention) !== -1);
 	return icon ? icon[0] : 'file';
 }
 
+/*
+ * On receiving the response, uses the file object to form a set of elements 
+ * that show details of the file like name, size and an icon, with the UI 
+ * to select only certain files for download
+ */
 function buttonMaker(file) {
 	return `<div class="uk-flex-inline uk-flex-middle uk-background-primary uk-light uk-padding-small">
 		<span uk-icon="icon: ${file.isFolder ? 'folder' : getIcon(file.name)}; ratio: 2"></span>
@@ -52,6 +72,9 @@ function buttonMaker(file) {
 	</div>`
 }
 
+/*
+ * Uses the server response to display the information back on the webpage
+ */
 function displayFiles(files) {
 	const buttons = files.map(buttonMaker)
 	if(files.length) 
@@ -65,6 +88,7 @@ function displayFiles(files) {
 		document.getElementById('downloadList').innerHTML = `<div class="uk-alert-primary uk-align-center uk-text-center uk-width-1-1" uk-alert>No files selected to share</div>`
 }
 
+// UIkit js to control file upload
 const bar = document.getElementById('js-progressbar');
 UIkit.upload('.js-upload', {
 	url: '/upload',
@@ -111,10 +135,18 @@ UIkit.upload('.js-upload', {
 	}
 });
 
+/*
+ * Once the button for downloading the selected files is clicked, sends the 
+ * appropriate request
+ */
 function downloadSelected() {
 	window.open(`download/specific?index=${indices}`, '_self');
 }
 
+/*
+ * Fires on checkbox value being changed, and updates the array representing 
+ * files which will be requested for download
+ */
 function checkboxHit(id) {
 	if(document.getElementById(`checkbox-${id}`).checked){
 		if(!indices.length) 
