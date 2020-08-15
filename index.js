@@ -19,10 +19,7 @@ const format = ':method request for :url resulted in status code :status - :resp
  */
 function initialize(app) {
 
-	// view engine setup
-	app.set('views', path.join(__dirname, 'views'));
-	app.set('view engine', 'ejs');
-
+	// Use express-easy-zip to send folders as a zip file
 	app.use(zip());
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: false }));
