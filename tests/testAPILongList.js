@@ -46,6 +46,9 @@ function testInvalidDownload (done, index) {
 	})
 	.end((err, res) => {
 		res.should.have.property('status',400);
+		res.body.should.be.a('object');
+		res.body.should.have.property('status', 400);
+		res.body.should.have.property('message', 'Wrong data supplied!');
 		done();
 	});
 }
@@ -117,6 +120,9 @@ describe('When sharing with repititions', () => {
 		.post('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Please choose files');
 			done();
 		});
 	});
