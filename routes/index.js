@@ -1,13 +1,11 @@
 const router = require('express').Router();
-const downloadManager = require('../middleware/downloadManager');
+const path = require('path');
 
 /* GET home page. */
 router.all('/', function(req, res, next) {
 	if(req.method === 'GET') {
 		// Gets the information of the files which can be downloaded
-		const rows = downloadManager.getRows();
-		if(rows.length > 0) res.render('index', { lines : rows });
-		else res.render('index', { lines : undefined });
+		res.sendFile(path.resolve(__dirname, '..', 'pages/root.html'));
 	}
 	else {
 		const error = new Error('Only GET requests are allowed on this route');

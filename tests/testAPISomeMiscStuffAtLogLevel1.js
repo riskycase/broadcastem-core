@@ -43,6 +43,9 @@ describe('Miscalleneous tests - log level 1', () => {
 		.get('/dgzrt634')
 		.end((err, res) => {
 			res.should.have.property('status',404);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 404);
+			res.body.should.have.property('message', 'Resource not found');
 			done();
 		});
 	});
@@ -52,6 +55,9 @@ describe('Miscalleneous tests - log level 1', () => {
 		.post('/sdhxfg')
 		.end((err, res) => {
 			res.should.have.property('status',404);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 404);
+			res.body.should.have.property('message', 'Resource not found');
 			done();
 		});
 	});

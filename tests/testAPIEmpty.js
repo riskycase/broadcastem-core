@@ -37,6 +37,9 @@ describe('When not sharing anything', () => {
 		.get('/download/all')
 		.end((err, res) => {
 			res.should.have.property('status',403);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 403);
+			res.body.should.have.property('message', 'There are no files for download!');
 			done();
 		});
 	});
@@ -49,6 +52,9 @@ describe('When not sharing anything', () => {
 		})
 		.end((err, res) => {
 			res.should.have.property('status',403);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 403);
+			res.body.should.have.property('message', 'There are no files for download!');
 			done();
 		});
 	});
@@ -72,6 +78,9 @@ describe('When not sharing anything', () => {
 		.post('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Please choose files');
 			done();
 		});
 	});
@@ -99,6 +108,9 @@ describe('When not sharing anything', () => {
 		})
 		.end((err, res) => {
 			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Wrong data supplied!');
 			done();
 		});
 	});

@@ -36,8 +36,9 @@ describe('Testing for correctness of response', () => {
 		.post('/')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
 			done();
 		});
 	});
@@ -47,6 +48,8 @@ describe('Testing for correctness of response', () => {
 		.head('/')
 		.end((err, res) => {
 			res.should.have.property('status',400);
+			res.body.should.be.a('string');
+			res.body.should.be.equal('');
 			done();
 		});
 	});
@@ -56,8 +59,9 @@ describe('Testing for correctness of response', () => {
 		.put('/')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
 			done();
 		});
 	});
@@ -67,8 +71,9 @@ describe('Testing for correctness of response', () => {
 		.delete('/')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
 			done();
 		});
 	});
@@ -92,7 +97,9 @@ describe('Testing for correctness of response', () => {
 		.post('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Please choose files/.test(res.text).should.equal(true);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Please choose files');
 			done();
 		});
 	});
@@ -102,8 +109,9 @@ describe('Testing for correctness of response', () => {
 		.get('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only POST requests are allowed on this route');
 			done();
 		});
 	});
@@ -122,8 +130,9 @@ describe('Testing for correctness of response', () => {
 		.put('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only POST requests are allowed on this route');
 			done();
 		});
 	});
@@ -133,8 +142,9 @@ describe('Testing for correctness of response', () => {
 		.delete('/upload')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only POST requests are allowed on this route');
 			done();
 		});
 	});
@@ -153,8 +163,9 @@ describe('Testing for correctness of response', () => {
 		.post('/download/list')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
 			done();
 		});
 	});
@@ -173,8 +184,9 @@ describe('Testing for correctness of response', () => {
 		.put('/download/list')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
 			done();
 		});
 	});
@@ -184,8 +196,9 @@ describe('Testing for correctness of response', () => {
 		.delete('/download/list')
 		.end((err, res) => {
 			res.should.have.property('status',400);
-			/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-			/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
 			done();
 		});
 	});
@@ -197,8 +210,8 @@ describe('Testing for correctness of response', () => {
 			index: 0
 		})
 		.end((err, res) => {
-				res.should.have.property('status',200);
-				done();
+			res.should.have.property('status',200);
+			done();
 		});
 	});
 	
@@ -206,103 +219,115 @@ describe('Testing for correctness of response', () => {
 		chai.request(app)
 		.get('/download/specific')
 		.end((err, res) => {
-				res.should.have.property('status',400);
-				/Wrong data supplied/.test(res.text).should.equal(true);
-				done();
+			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Wrong data supplied!');
+			done();
 		});
 	});
 
 	it('it should not accept POST for /download/specific', (done) => {
-			chai.request(app)
-			.post('/download/specific')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-					/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
-					done();
-			});
+		chai.request(app)
+		.post('/download/specific')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
+			done();
+		});
 	});
 
 	it('it should not accept HEAD for /download/specific', (done) => {
-			chai.request(app)
-			.head('/download/specific')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					done();
-			});
+		chai.request(app)
+		.head('/download/specific')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('string');
+			res.body.should.be.equal('');
+			done();
+		});
 	});
 
 	it('it should not accept PUT for /download/specific', (done) => {
-			chai.request(app)
-			.put('/download/specific')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-					/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
-					done();
-			});
+		chai.request(app)
+		.put('/download/specific')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
+			done();
+		});
 	});
 
 	it('it should not accept DELETE for /download/specific', (done) => {
-			chai.request(app)
-			.delete('/download/specific')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-					/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
-					done();
-			});
+		chai.request(app)
+		.delete('/download/specific')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
+			done();
+		});
 	});
 
 	it('it should only accept GET for /download/all', (done) => {
-			chai.request(app)
-			.get('/download/all')
-			.end((err, res) => {
-					res.should.have.property('status',200);
-					done();
-			});
+		chai.request(app)
+		.get('/download/all')
+		.end((err, res) => {
+			res.should.have.property('status',200);
+			done();
+		});
 	});
 
 	it('it should not accept POST for /download/all', (done) => {
-			chai.request(app)
-			.post('/download/all')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-					/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
-					done();
-			});
+		chai.request(app)
+		.post('/download/all')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
+			done();
+		});
 	});
 
 	it('it should not accept HEAD for /download/all', (done) => {
-			chai.request(app)
-			.head('/download/all')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					done();
-			});
+		chai.request(app)
+		.head('/download/all')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('string');
+			res.body.should.be.equal('');
+			done();
+		});
 	});
 
 	it('it should not accept PUT for /download/all', (done) => {
-			chai.request(app)
-			.put('/download/all')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-					/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
-					done();
-			});
+		chai.request(app)
+		.put('/download/all')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
+			done();
+		});
 	});
 
 	it('it should not accept DELETE for /download/all', (done) => {
-			chai.request(app)
-			.delete('/download/all')
-			.end((err, res) => {
-					res.should.have.property('status',400);
-					/Only GET requests are allowed on this route/.test(res.text).should.equal(true);
-					/Only POST requests are allowed on this route/.test(res.text).should.equal(false);
-					done();
-			});
+		chai.request(app)
+		.delete('/download/all')
+		.end((err, res) => {
+			res.should.have.property('status',400);
+			res.body.should.be.a('object');
+			res.body.should.have.property('status', 400);
+			res.body.should.have.property('message', 'Only GET requests are allowed on this route');
+			done();
+		});
 	});
 	
 });
