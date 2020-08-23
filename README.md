@@ -18,13 +18,13 @@ local network, and possibly over the internet if bridging is used
 
 Install using
 
-- npm
+-   npm
 
 ```
 	npm i broadcastem-core -g
 ```
 
-- yarn
+-   yarn
 
 ```
 	yarn global add broadcastem-core

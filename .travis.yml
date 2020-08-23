@@ -1,9 +1,9 @@
 jobs:
-  include:
-    - stage: Test
-      language: node_js
-      node_js: node
-      script:
-        - yarn install --frozen-lockfile
-        - yarn test:API
-        - yarn test:Startup
+    include:
+        - stage: Test
+          language: node_js
+          node_js: node
+          script:
+              - yarn install --frozen-lockfile
+              - yarn test:API
+              - yarn test:Startup
