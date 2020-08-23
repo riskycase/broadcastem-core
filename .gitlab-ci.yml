@@ -1,53 +1,52 @@
 include:
-  - template: Dependency-Scanning.gitlab-ci.yml
-  - template: SAST.gitlab-ci.yml
-  - template: Code-Quality.gitlab-ci.yml 
-  - template: License-Scanning.gitlab-ci.yml
-
+    - template: Dependency-Scanning.gitlab-ci.yml
+    - template: SAST.gitlab-ci.yml
+    - template: Code-Quality.gitlab-ci.yml
+    - template: License-Scanning.gitlab-ci.yml
 
 stages:
-  - testing
-  - test
-    
+    - testing
+    - test
+
 Test Latest:
-  cache:
-    key: node_modules-latest
-    paths:
-      - node_modules/
-  image: node:latest
-  stage: testing
-  before_script:
-    - yarn global add nyc mocha-junit-reporter
-    - yarn install --frozen-lockfile
-  script:
-    - nyc --silent yarn test:API --reporter mocha-junit-reporter
-    - nyc --silent --no-clean yarn test:Startup --reporter mocha-junit-reporter
-    - nyc report --reporter=text
-  artifacts:
-    reports:
-      junit: test-results.xml
-    
+    cache:
+        key: node_modules-latest
+        paths:
+            - node_modules/
+    image: node:latest
+    stage: testing
+    before_script:
+        - yarn global add nyc mocha-junit-reporter
+        - yarn install --frozen-lockfile
+    script:
+        - nyc --silent yarn test:API --reporter mocha-junit-reporter
+        - nyc --silent --no-clean yarn test:Startup --reporter mocha-junit-reporter
+        - nyc report --reporter=text
+    artifacts:
+        reports:
+            junit: test-results.xml
+
 Test LTS:
-  cache:
-    key: node_modules-lts
-    paths:
-      - node_modules/
-  image: node:lts
-  stage: testing
-  before_script:
-    - yarn global add nyc mocha-junit-reporter
-    - yarn install --frozen-lockfile
-    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-    - chmod +x ./cc-test-reporter
-    - ./cc-test-reporter before-build
-  script:
-    - nyc --silent yarn test:API --reporter mocha-junit-reporter
-    - nyc --silent --no-clean yarn test:Startup --reporter mocha-junit-reporter
-    - nyc report --reporter=text
-    - nyc report --reporter=lcov
-    - nyc report --reporter=cobertura
-    - ./cc-test-reporter after-build --exit-code 0 
-  artifacts:
-    reports:
-      cobertura: coverage/cobertura-coverage.xml
-      junit: test-results.xml
+    cache:
+        key: node_modules-lts
+        paths:
+            - node_modules/
+    image: node:lts
+    stage: testing
+    before_script:
+        - yarn global add nyc mocha-junit-reporter
+        - yarn install --frozen-lockfile
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
+    script:
+        - nyc --silent yarn test:API --reporter mocha-junit-reporter
+        - nyc --silent --no-clean yarn test:Startup --reporter mocha-junit-reporter
+        - nyc report --reporter=text
+        - nyc report --reporter=lcov
+        - nyc report --reporter=cobertura
+        - ./cc-test-reporter after-build --exit-code 0
+    artifacts:
+        reports:
+            cobertura: coverage/cobertura-coverage.xml
+            junit: test-results.xml
