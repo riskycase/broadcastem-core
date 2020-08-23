@@ -1,3 +1,8 @@
+v2.2.0
+
+Use AJAX to show homepage rather than template engine
+Prepare to deprecate inbuilt CLI
+
 v2.1.0
 
 Fix UIKit dist files not loading by searching for UIKit path directly
