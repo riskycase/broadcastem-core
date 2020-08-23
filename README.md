@@ -3,6 +3,10 @@
 A file server based on node.js that allows sharing files over HTTP on the same
 local network, and possibly over the internet if bridging is used
 
+## Note:
+
+The inbuilt CLI file will be removed by the end of 2020, please use the package broadcastem-cli if you need to use this app on a terminal
+
 ## Badges
 
 [![Test Status](https://gitlab.com/riskycase/broadcastem-core/badges/trunk/pipeline.svg?key_text=Tests&key_width=35)](https://gitlab.com/riskycase/broadcastem-core)
@@ -21,19 +25,23 @@ Install using
 -   npm
 
 ```
-	npm i broadcastem-core -g
+	npm i broadcastem-core
 ```
 
 -   yarn
 
 ```
-	yarn global add broadcastem-core
+	yarn add broadcastem-core
 ```
 
 ## Usage
 
-```shell
-$ broadcastem-core
+```js
+const core = require('broadcastem-core');
+
+core.init(options).then(app => {
+	//Use app
+});
 ```
 
 ## Documentation
