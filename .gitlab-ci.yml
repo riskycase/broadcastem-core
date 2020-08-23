@@ -1,14 +1,13 @@
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
   - template: SAST.gitlab-ci.yml
-  - template: Code-Quality.gitlab-ci.yml 
+  - template: Code-Quality.gitlab-ci.yml
   - template: License-Scanning.gitlab-ci.yml
-
 
 stages:
   - testing
   - test
-    
+
 Test Latest:
   cache:
     key: node_modules-latest
@@ -26,7 +25,7 @@ Test Latest:
   artifacts:
     reports:
       junit: test-results.xml
-    
+
 Test LTS:
   cache:
     key: node_modules-lts
@@ -46,7 +45,7 @@ Test LTS:
     - nyc report --reporter=text
     - nyc report --reporter=lcov
     - nyc report --reporter=cobertura
-    - ./cc-test-reporter after-build --exit-code 0 
+    - ./cc-test-reporter after-build --exit-code 0
   artifacts:
     reports:
       cobertura: coverage/cobertura-coverage.xml
