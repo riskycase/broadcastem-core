@@ -19,6 +19,16 @@ function isPathPresent(arr, path) {
 }
 
 /*
+ * Adds a path to listFiles if not already present in it or directFiles
+ *
+ * Takes path of file and returns nothing
+ */
+function addPath(path) {
+	if (!isPathPresent(directFiles, path) && !isPathPresent(listFiles, path))
+		listFiles.push(fileMaker(path));
+}
+
+/*
  * Reads a file line by line, and add the corresponding data to an array
  *
  * Takes path of file and returns promise which resolves when all the specified paths are valid
@@ -32,30 +42,22 @@ function readLines(listPath) {
 		});
 
 		// Resolves the promise if the file was read successfully
-		readInterface.on('close', resolve);
+		readInterface.on('close', () => {
+			resolve();
+			calcSize(listFiles);
+		});
 
 		let lineNumber = 1;
 
 		readInterface.on('line', line => {
-			// Processes every line of the file
-			if (
-				!isPathPresent(directFiles, line) &&
-				!isPathPresent(listFiles, line)
-			) {
-				// Adds the path to array ony if it exists
-				if (fs.existsSync(line)) {
-					listFiles.push(fileMaker(line));
-					if (lineNumber === 1) calcSize(listFiles);
-				}
-				// Informs in the error message which path doesn't exist
-				else
-					reject(
-						`${line} does not exist! (at ${path.resolve(
-							process.cwd(),
-							listPath
-						)} at ${lineNumber})`
-					);
-			}
+			if (fs.existsSync(line)) addPath(line);
+			else
+				reject(
+					`${line} does not exist! (at ${path.resolve(
+						process.cwd(),
+						listPath
+					)} at ${lineNumber})`
+				);
 			lineNumber++;
 		});
 	});
