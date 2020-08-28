@@ -8,7 +8,7 @@ stages:
     - test
     - build
     - testing
-    - coverage
+    - post-test
     - publish
 
 Build Latest:
@@ -58,7 +58,7 @@ Test Latest Options:
             - .nyc_output/
 
 Coverage Latest:
-    stage: coverage
+    stage: post-test
     needs: ['Test Latest Options', 'Test Latest API']
     image: node:latest
     before_script:
@@ -83,7 +83,7 @@ Test LTS Options:
     needs: ['Build LTS']
 
 Coverage LTS:
-    stage: coverage
+    stage: post-test
     needs: ['Test LTS Options', 'Test LTS API']
     image: node:lts
     before_script:
@@ -98,6 +98,13 @@ Coverage LTS:
         reports:
             cobertura: coverage/cobertura-coverage.xml
 
+Lint:
+    stage: post-test
+    needs: ['Build Latest', 'Build LTS']
+    image: node:lts
+    script:
+        - yarn prettier --check .
+
 Publish:
     stage: publish
     needs:
@@ -106,6 +113,7 @@ Publish:
             'Test LTS API',
             'Test Latest Options',
             'Test Latest API',
+            'Lint',
         ]
     image: node:lts
     before_script:

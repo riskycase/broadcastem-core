@@ -106,39 +106,10 @@ UIkit.upload('.js-upload', {
 	url: '/upload',
 	multiple: true,
 	type: 'multipart/form-data',
-	beforeSend: function () {
-		console.log('beforeSend', arguments);
-	},
-	beforeAll: function () {
-		console.log('beforeAll', arguments);
-	},
-	load: function () {
-		console.log('load', arguments);
-	},
-	error: function () {
-		console.log('error', arguments);
-	},
-	complete: function () {
-		console.log('complete', arguments);
-	},
-	loadStart: function (e) {
-		console.log('loadStart', arguments);
-		bar.removeAttribute('hidden');
-		bar.max = e.total;
-		bar.value = e.loaded;
-	},
-	progress: function (e) {
-		console.log('progress', arguments);
-		bar.max = e.total;
-		bar.value = e.loaded;
-	},
-	loadEnd: function (e) {
-		console.log('loadEnd', arguments);
-		bar.max = e.total;
-		bar.value = e.loaded;
-	},
+	loadStart: setBarValue,
+	progress: setBarValue,
+	loadEnd: setBarValue,
 	completeAll: function () {
-		console.log('completeAll', arguments);
 		setTimeout(function () {
 			bar.setAttribute('hidden', 'hidden');
 		}, 1000);
@@ -146,6 +117,15 @@ UIkit.upload('.js-upload', {
 		loadFiles();
 	},
 });
+
+/*
+ * Sets the value for the progress bar
+ */
+function setBarValue(e) {
+	bar.removeAttribute('hidden');
+	bar.max = e.total;
+	bar.value = e.loaded;
+}
 
 /*
  * Once the button for downloading the selected files is clicked, sends the
@@ -160,13 +140,13 @@ function downloadSelected() {
  * files which will be requested for download
  */
 function checkboxHit(id) {
-	if (document.getElementById(`checkbox-${id}`).checked) {
-		if (!indices.length)
-			document.getElementById('selected').style.display = 'inline-block';
-		indices.push(id);
-	} else {
-		indices.splice(indices.indexOf(id), 1);
-		if (!indices.length)
-			document.getElementById('selected').style.display = 'none';
-	}
+	// If checkbox gets selected, adds that id to indices else removes it
+	document.getElementById(`checkbox-${id}`).checked
+		? indices.push(id)
+		: indices.splice(indices.indexOf(id), 1);
+
+	// If indices are empty, hide the 'Selected' download button
+	document.getElementById('selected').style.display = indices.length
+		? 'inline-block'
+		: 'none';
 }
