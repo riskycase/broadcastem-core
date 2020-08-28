@@ -9,9 +9,35 @@ const indexRouter = require('./routes/index');
 const uploadRouter = require('./routes/upload');
 const downloadRouter = require('./routes/download');
 
-// Sets the format to be used for logging
-const format =
-	':method request for :url resulted in status code :status - :response-time ms';
+/*
+ * Sets up logging for the app
+ *
+ * Takes express app and adds logger to it
+ */
+function setLogging(app, loggingLevel, stdout) {
+	// Sets the format to be used for logging
+	const format =
+		':method request for :url resulted in status code :status - :response-time ms';
+
+	if (isNaN(loggingLevel) || loggingLevel > 2 || loggingLevel < 0)
+		loggingLevel = 0;
+
+	stdout = stdout || process.stdout;
+
+	if (loggingLevel === 2)
+		app.use(
+			logger(format, {
+				stream: stdout,
+			})
+		);
+	else if (loggingLevel === 1)
+		app.use(
+			logger(format, {
+				stream: stdout,
+				skip: (req, res) => res.statusCode < 400,
+			})
+		);
+}
 
 /*
  * Initialises an Express app with the view generator, plugins and routes
@@ -59,28 +85,6 @@ function handlers(app) {
 }
 
 /*
- * Sets valid values for keys of the options which may be invaild
- *
- * Takes options object which is modified and returns nothing
- */
-function cleanOptions(options) {
-	if (
-		isNaN(options.loggingLevel) ||
-		options.loggingLevel > 2 ||
-		options.loggingLevel < 0
-	)
-		options.loggingLevel = 0;
-	if (options.restart === undefined) options.restart = true;
-	if (!Array.isArray(options.files)) options.files = [];
-	if (!options.destination)
-		options.destination = path.resolve(
-			path.basename(require.main.filename),
-			'../uploads'
-		);
-	if (!options.stdout) options.stdout = process.stdout;
-}
-
-/*
  * Creates an Express app with the options specified
  *
  * Takes options object or nothing and returns a promise that resolves to an Express app
@@ -88,23 +92,14 @@ function cleanOptions(options) {
 module.exports.init = (options = {}) => {
 	const app = express();
 
-	cleanOptions(options);
-
-	if (options.loggingLevel === 2)
-		app.use(
-			logger(format, {
-				stream: options.stdout,
-			})
-		);
-	else if (options.loggingLevel === 1)
-		app.use(
-			logger(format, {
-				stream: options.stdout,
-				skip: (req, res) => res.statusCode < 400,
-			})
-		);
+	// Set logging only if neccessary
+	if (options.loggingLevel)
+		setLogging(app, options.loggingLevel, options.stdout);
 
 	return new Promise((resolve, reject) => {
+		// If restart flag is not set, default to true
+		if (options.restart === undefined) options.restart = true;
+
 		require('./middleware/fileManager')
 			.initFiles(options)
 			.then(() => {

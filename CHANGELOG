@@ -1,3 +1,9 @@
+v2.2.1
+
+Fix few CodeClimate issues
+Publish package from GitLab CI instead of PC
+Update devDependencies
+
 v2.2.0
 
 Use AJAX to show homepage rather than template engine
