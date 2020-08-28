@@ -59,28 +59,6 @@ function handlers(app) {
 }
 
 /*
- * Sets valid values for keys of the options which may be invaild
- *
- * Takes options object which is modified and returns nothing
- */
-function cleanOptions(options) {
-	if (
-		isNaN(options.loggingLevel) ||
-		options.loggingLevel > 2 ||
-		options.loggingLevel < 0
-	)
-		options.loggingLevel = 0;
-	if (options.restart === undefined) options.restart = true;
-	if (!Array.isArray(options.files)) options.files = [];
-	if (!options.destination)
-		options.destination = path.resolve(
-			path.basename(require.main.filename),
-			'../uploads'
-		);
-	if (!options.stdout) options.stdout = process.stdout;
-}
-
-/*
  * Creates an Express app with the options specified
  *
  * Takes options object or nothing and returns a promise that resolves to an Express app
@@ -88,7 +66,14 @@ function cleanOptions(options) {
 module.exports.init = (options = {}) => {
 	const app = express();
 
-	cleanOptions(options);
+	if (
+		isNaN(options.loggingLevel) ||
+		options.loggingLevel > 2 ||
+		options.loggingLevel < 0
+	)
+		options.loggingLevel = 0;
+
+	options.stdout = options.stdout || process.stdout;
 
 	if (options.loggingLevel === 2)
 		app.use(
@@ -105,6 +90,9 @@ module.exports.init = (options = {}) => {
 		);
 
 	return new Promise((resolve, reject) => {
+		// If restart flag is not set, default to true
+		if (options.restart === undefined) options.restart = true;
+
 		require('./middleware/fileManager')
 			.initFiles(options)
 			.then(() => {

@@ -117,11 +117,16 @@ function fileMaker(path) {
  * Takes options object and returns promise that resolves when the basic setup is successfully completed
  */
 function initFiles(options) {
+	// Set files to empty array if not defined
+	if (!Array.isArray(options.files)) options.files = [];
+
 	// Filters out unique values from the files flag
 	directFiles = options.files
 		.filter((value, index, self) => self.indexOf(value) === index)
 		.map(fileMaker);
-	destination = options.destination;
+	destination =
+		options.destination ||
+		path.resolve(path.basename(require.main.filename), '../uploads');
 
 	// Starts calculating the size of all the files in files flag
 	calcSize(directFiles);
