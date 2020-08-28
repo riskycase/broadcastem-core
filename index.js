@@ -9,9 +9,35 @@ const indexRouter = require('./routes/index');
 const uploadRouter = require('./routes/upload');
 const downloadRouter = require('./routes/download');
 
-// Sets the format to be used for logging
-const format =
-	':method request for :url resulted in status code :status - :response-time ms';
+/*
+ * Sets up logging for the app
+ *
+ * Takes express app and adds logger to it
+ */
+function setLogging(app, loggingLevel, stdout) {
+	// Sets the format to be used for logging
+	const format =
+		':method request for :url resulted in status code :status - :response-time ms';
+
+	if (isNaN(loggingLevel) || loggingLevel > 2 || loggingLevel < 0)
+		loggingLevel = 0;
+
+	stdout = stdout || process.stdout;
+
+	if (loggingLevel === 2)
+		app.use(
+			logger(format, {
+				stream: stdout,
+			})
+		);
+	else if (loggingLevel === 1)
+		app.use(
+			logger(format, {
+				stream: stdout,
+				skip: (req, res) => res.statusCode < 400,
+			})
+		);
+}
 
 /*
  * Initialises an Express app with the view generator, plugins and routes
@@ -66,28 +92,9 @@ function handlers(app) {
 module.exports.init = (options = {}) => {
 	const app = express();
 
-	if (
-		isNaN(options.loggingLevel) ||
-		options.loggingLevel > 2 ||
-		options.loggingLevel < 0
-	)
-		options.loggingLevel = 0;
-
-	options.stdout = options.stdout || process.stdout;
-
-	if (options.loggingLevel === 2)
-		app.use(
-			logger(format, {
-				stream: options.stdout,
-			})
-		);
-	else if (options.loggingLevel === 1)
-		app.use(
-			logger(format, {
-				stream: options.stdout,
-				skip: (req, res) => res.statusCode < 400,
-			})
-		);
+	// Set logging only if neccessary
+	if (options.loggingLevel)
+		setLogging(app, options.loggingLevel, options.stdout);
 
 	return new Promise((resolve, reject) => {
 		// If restart flag is not set, default to true
