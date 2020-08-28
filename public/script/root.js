@@ -140,13 +140,13 @@ function downloadSelected() {
  * files which will be requested for download
  */
 function checkboxHit(id) {
-	if (document.getElementById(`checkbox-${id}`).checked) {
-		if (!indices.length)
-			document.getElementById('selected').style.display = 'inline-block';
-		indices.push(id);
-	} else {
-		indices.splice(indices.indexOf(id), 1);
-		if (!indices.length)
-			document.getElementById('selected').style.display = 'none';
-	}
+	// If checkbox gets selected, adds that id to indices else removes it
+	document.getElementById(`checkbox-${id}`).checked
+		? indices.push(id)
+		: indices.splice(indices.indexOf(id), 1);
+
+	// If indices are empty, hide the 'Selected' download button
+	document.getElementById('selected').style.display = indices.length
+		? 'inline-block'
+		: 'none';
 }
