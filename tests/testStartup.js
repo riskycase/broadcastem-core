@@ -42,6 +42,12 @@ describe('When trying to start the app', () => {
 		});
 	});
 
+	it('it should set logging level to 0 if NaN is detected', done => {
+		app.init({
+			loggingLevel: 'sdgztrfjxty',
+		}).then(app => done());
+	});
+
 	it('it should use default options if nothing is specified', done => {
 		app.init().then(app => done());
 	});
