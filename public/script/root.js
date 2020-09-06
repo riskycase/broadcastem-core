@@ -65,7 +65,7 @@ function buttonMaker(file) {
 		<span uk-icon="icon: ${
 			file.isFolder ? 'folder' : getIcon(file.name)
 		}; ratio: 2"></span>
-		<div class="uk-width-expand" style="padding: 5px">Name: ${
+		<div class="uk-width-expand uk-text-truncate" style="padding: 5px">Name: ${
 			file.name
 		} <br>Size: ${humanFileSize(file.size)}</div>
 		<div>
