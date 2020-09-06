@@ -1,7 +1,7 @@
 var chai = require('chai');
 
 const should = chai.should();
-const app = require('../index');
+const app = require('../../index');
 
 describe('When trying to start the app', () => {
 	it('it should resolve only when all paths supplied in the list are existent', done => {
@@ -40,6 +40,12 @@ describe('When trying to start the app', () => {
 				.should.equal(true);
 			done();
 		});
+	});
+
+	it('it should set logging level to 0 if NaN is detected', done => {
+		app.init({
+			loggingLevel: 'sdgztrfjxty',
+		}).then(app => done());
 	});
 
 	it('it should use default options if nothing is specified', done => {
