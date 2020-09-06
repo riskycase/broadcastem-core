@@ -13,7 +13,7 @@
 	"scripts": {
 		"start": "node ./bin/www",
 		"test:Startup": "mocha tests/testStartup*.js",
-		"test:API": "mocha tests/testAPI*.js"
+		"test:API": "node tests/API/index.js"
 	},
 	"repository": {
 		"type": "git",

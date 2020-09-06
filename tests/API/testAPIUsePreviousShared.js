@@ -10,7 +10,7 @@ var app;
 describe('When not removing files shared before', () => {
 	before(function (done) {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
-		require('../index')
+		require('../../index')
 			.init({
 				destination: 'dummy/uploads',
 				restart: false,

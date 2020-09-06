@@ -65,15 +65,12 @@ function testInvalidDownload(done, index) {
 		});
 }
 
-describe('When sharing from a list', () => {
+describe('When sharing a single file', () => {
 	before(function (done) {
-		require('../index')
+		require('../../index')
 			.init({
-				files: [],
+				files: ['dummy/dummy-down.txt'],
 				destination: 'dummy/uploads',
-				list: 'dummy/dummy-list.txt',
-				restart: true,
-				loggingLevel: 0,
 			})
 			.then(generatedApp => {
 				app = generatedApp;
@@ -96,29 +93,8 @@ describe('When sharing from a list', () => {
 		testValidDownload(done, '0');
 	});
 
-	it('it should download a zip with name dummy-folder.zip', done => {
-		chai.request(app)
-			.get('/download/specific')
-			.query({
-				index: '1',
-			})
-			.end((err, res) => {
-				res.should.have.property('status', 200);
-				res.header.should.have.property(
-					'content-type',
-					'application/zip'
-				);
-				res.header.should.have.property(
-					'content-disposition',
-					'attachment; filename="dummy-folder.zip"'
-				);
-				res.header.should.have.property('transfer-encoding', 'chunked');
-				done();
-			});
-	});
-
 	it('it should not download invalid file', done => {
-		testInvalidDownload(done, '2');
+		testInvalidDownload(done, '1');
 	});
 
 	it('it should upload a file', done => {
@@ -155,7 +131,7 @@ describe('When sharing from a list', () => {
 		chai.request(app)
 			.get('/download/specific')
 			.query({
-				index: '2',
+				index: '1',
 			})
 			.end((err, res) => {
 				res.should.have.property('status', 200);
@@ -175,11 +151,15 @@ describe('When sharing from a list', () => {
 			});
 	});
 
+	it('it should not open any download other than shared file', done => {
+		testInvalidDownload(done, '2');
+	});
+
 	it('it should download multiple files', done => {
 		chai.request(app)
 			.get('/download/specific')
 			.query({
-				index: '0,1,2',
+				index: '0,1',
 			})
 			.end((err, res) => {
 				res.should.have.property('status', 200);
@@ -194,10 +174,6 @@ describe('When sharing from a list', () => {
 				res.header.should.have.property('transfer-encoding', 'chunked');
 				done();
 			});
-	});
-
-	it('it should not open any download other than shared file', done => {
-		testInvalidDownload(done, '3');
 	});
 
 	it(

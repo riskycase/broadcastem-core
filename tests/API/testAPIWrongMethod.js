@@ -11,7 +11,7 @@ var app;
 describe('Testing for correctness of response', () => {
 	before(function (done) {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
-		require('../index')
+		require('../../index')
 			.init({
 				files: ['dummy/dummy-folder/dummy-small.txt'],
 				destination: 'dummy/uploads',
