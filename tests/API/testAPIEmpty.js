@@ -13,7 +13,7 @@ var app;
 
 describe('When not sharing anything', () => {
 	before(function (done) {
-		require('../index')
+		require('../../index')
 			.init({
 				destination: 'dummy/uploads',
 			})

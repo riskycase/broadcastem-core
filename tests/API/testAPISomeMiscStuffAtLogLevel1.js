@@ -8,14 +8,14 @@ var should = chai.should();
 
 var app;
 
-describe('Miscalleneous tests - log level 2', () => {
+describe('Miscalleneous tests - log level 1', () => {
 	before(function (done) {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
-		require('../index')
+		require('../../index')
 			.init({
 				files: ['dummy/dummy-folder/dummy-small.txt'],
 				destination: 'dummy/uploads',
-				loggingLevel: 2,
+				loggingLevel: 1,
 				stdout: devnull(),
 			})
 			.then(generatedApp => {

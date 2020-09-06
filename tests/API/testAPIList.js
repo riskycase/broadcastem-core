@@ -65,13 +65,15 @@ function testInvalidDownload(done, index) {
 		});
 }
 
-describe('When sharing with repititions', () => {
+describe('When sharing from a list', () => {
 	before(function (done) {
-		require('../index')
+		require('../../index')
 			.init({
-				files: ['dummy/dummy-down.txt'],
+				files: [],
 				destination: 'dummy/uploads',
-				list: 'dummy/dummy-list-long.txt',
+				list: 'dummy/dummy-list.txt',
+				restart: true,
+				loggingLevel: 0,
 			})
 			.then(generatedApp => {
 				app = generatedApp;
@@ -173,64 +175,6 @@ describe('When sharing with repititions', () => {
 			});
 	});
 
-	it('it should not open any download other than shared file', done => {
-		testInvalidDownload(done, '3');
-	});
-
-	it('it should not generate duplicate downloads', done => {
-		chai.request(app)
-			.post('/upload')
-			.set('Content-Type', 'multipart/form-data')
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.end((err, res) => {
-				testInvalidDownload(done, '3');
-			});
-	});
-
 	it('it should download multiple files', done => {
 		chai.request(app)
 			.get('/download/specific')
@@ -250,6 +194,10 @@ describe('When sharing with repititions', () => {
 				res.header.should.have.property('transfer-encoding', 'chunked');
 				done();
 			});
+	});
+
+	it('it should not open any download other than shared file', done => {
+		testInvalidDownload(done, '3');
 	});
 
 	it(
