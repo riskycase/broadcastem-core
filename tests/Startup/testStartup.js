@@ -1,7 +1,7 @@
 var chai = require('chai');
 
 const should = chai.should();
-const app = require('../index');
+const app = require('../../index');
 
 describe('When trying to start the app', () => {
 	it('it should resolve only when all paths supplied in the list are existent', done => {
