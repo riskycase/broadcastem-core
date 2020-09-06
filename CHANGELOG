@@ -1,5 +1,11 @@
 v2.2.1
 
+Add a CSS class to truncate long file names
+Update UIKit from 3.5.6 to 3.5.7
+Update devDependencies
+
+v2.2.1
+
 Fix few CodeClimate issues
 Publish package from GitLab CI instead of PC
 Update devDependencies
