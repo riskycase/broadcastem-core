@@ -2,7 +2,12 @@ const Mocha = require('mocha');
 const fs = require('fs').promises;
 const path = require('path');
 
-const mocha = new Mocha();
+const mocha = new Mocha({
+	reporter: 'mocha-junit-reporter',
+	reporterOptions: {
+		testCaseSwitchClassnameAndName: true,
+	},
+});
 
 fs.readdir(__dirname)
 	.then(files => files.filter(file => file.substring(0, 7) === 'testAPI'))
