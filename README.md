@@ -9,12 +9,13 @@ The inbuilt CLI file will be removed by the end of 2020, please use the package 
 
 ## Badges
 
-[![Test Status](https://gitlab.com/riskycase/broadcastem-core/badges/trunk/pipeline.svg?key_text=Tests&key_width=35)](https://gitlab.com/riskycase/broadcastem-core)
-[![Test Coverage](https://gitlab.com/riskycase/broadcastem-core/badges/trunk/coverage.svg?key_text=Code%20coverage&key_width=90)](https://gitlab.com/riskycase/broadcastem-core)
+[![Test Status](https://img.shields.io/gitlab/pipeline/riskycase/broadcastem-core/trunk?label=Tests&logo=Gitlab)](https://gitlab.com/riskycase/broadcastem-core)
+[![LTS code coverage](https://img.shields.io/gitlab/coverage/riskycase/broadcastem-core/trunk?job_name=Coverage%20LTS&label=LTS%20Coverage&logo=Node.js)](https://gitlab.com/riskycase/broadcastem-core/-/pipelines/)
+[![Latest code coverage](https://img.shields.io/gitlab/coverage/riskycase/broadcastem-core/trunk?job_name=Coverage%20Latest&label=Latest%20Version%20Coverage&logo=Node.js)](https://gitlab.com/riskycase/broadcastem-core/-/pipelines/)
 [![Libraries.io dependency status - latest release](https://img.shields.io/librariesio/release/npm/broadcastem-core?label=Dependencies%20%28published%20version%29)](https://libraries.io/npm/broadcastem-core)
-[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/riskycase/broadcastem-core?label=Maintainability)](https://codeclimate.com/github/riskycase/broadcastem-core)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/riskycase/broadcastem-core?label=Code%20Quality&logo=Code%20Climate)](https://codeclimate.com/github/riskycase/broadcastem-core)
 [![npm total downloads](https://img.shields.io/npm/dt/broadcastem-core?label=Total%20Downloads&logo=npm)](https://www.npmjs.com/package/broadcastem-core)
-[![NPM](https://img.shields.io/npm/l/broadcastem-core?color=blue)](https://en.wikipedia.org/wiki/MIT_License)
+[![NPM](https://img.shields.io/npm/l/broadcastem-core?color=blue&label=License)](https://en.wikipedia.org/wiki/MIT_License)
 [![npm](https://img.shields.io/npm/v/broadcastem-core?label=Latest%20Version)](https://www.npmjs.com/package/broadcastem-core)
 [![Shields.io](https://img.shields.io/badge/Badge%20Provider-Shields.io-brightgreen)](https://shields.io/)
 
