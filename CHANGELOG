@@ -1,4 +1,10 @@
-v2.2.1
+v2.2.3
+
+Sign with edited key that expires in a year
+Update husky devDependency
+Change badges on README.md
+
+v2.2.2
 
 Add a CSS class to truncate long file names
 Update UIKit from 3.5.6 to 3.5.7
