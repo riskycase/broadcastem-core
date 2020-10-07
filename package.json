@@ -1,6 +1,6 @@
 {
 	"name": "broadcastem-core",
-	"version": "2.2.3",
+	"version": "2.2.4",
 	"description": "The core module for Broadcast 'em application",
 	"keywords": [
 		"broadcast",
