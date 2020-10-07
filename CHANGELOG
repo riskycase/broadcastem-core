@@ -1,3 +1,9 @@
+v2.2.4
+
+Update UIKit from 3.5.7 to 3.5.8
+Update prettier from 2.1.1 to 2.1.2
+Fix homepage not loading files on first request
+
 v2.2.3
 
 Sign with edited key that expires in a year
