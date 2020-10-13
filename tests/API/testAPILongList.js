@@ -133,7 +133,14 @@ describe('When sharing with repititions', () => {
 				res.should.have.property('status', 200);
 				res.body.should.be.an('array');
 				res.body[0].should.have.property('size', upFileSize);
-				res.body[0].should.have.property('name', 'dummy-up.txt');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-up.txt'
+				);
+				res.body[0].should.have.property(
+					'savedFileName',
+					'dummy-up.txt'
+				);
 				done();
 			});
 	});
@@ -228,6 +235,10 @@ describe('When sharing with repititions', () => {
 				'dummy-up.txt'
 			)
 			.end((err, res) => {
+				res.body.forEach(file => {
+					file.sentFileName.should.equal('dummy-up.txt');
+					file.size.should.equal(upFileSize);
+				});
 				testInvalidDownload(done, '12');
 			});
 	});

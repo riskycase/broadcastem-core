@@ -135,7 +135,14 @@ describe('When sharing from a list', () => {
 				res.should.have.property('status', 200);
 				res.body.should.be.an('array');
 				res.body[0].should.have.property('size', upFileSize);
-				res.body[0].should.have.property('name', 'dummy-up.txt');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-up.txt'
+				);
+				res.body[0].should.have.property(
+					'savedFileName',
+					'dummy-up.txt'
+				);
 				done();
 			});
 	});
