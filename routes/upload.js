@@ -16,7 +16,8 @@ router.all('/', uploadManager.saveFiles, (req, res, next) => {
 		uploadManager.updateReceivedFiles(files);
 		res.send(
 			files.map(file => ({
-				name: file.originalname,
+				sentFileName: file.originalname,
+				savedFileName: file.filename,
 				size: file.size,
 			}))
 		);
