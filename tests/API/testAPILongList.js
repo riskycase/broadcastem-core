@@ -67,6 +67,7 @@ function testInvalidDownload(done, index) {
 
 describe('When sharing with repititions', () => {
 	before(function (done) {
+		fs.rmdirSync('dummy/uploads', { recursive: true });
 		require('../../index')
 			.init({
 				files: ['dummy/dummy-down.txt'],
@@ -227,7 +228,17 @@ describe('When sharing with repititions', () => {
 				'dummy-up.txt'
 			)
 			.end((err, res) => {
-				testInvalidDownload(done, '3');
+				testInvalidDownload(done, '12');
+			});
+	});
+
+	it('test', done => {
+		chai.request(app)
+			.get('/download/list')
+			.end((err, res) => {
+				res.body.should.be.a('array');
+				res.body.length.should.equal(12);
+				done();
 			});
 	});
 

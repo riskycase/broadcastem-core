@@ -13,6 +13,7 @@ var app;
 
 describe('When not sharing anything', () => {
 	before(function (done) {
+		fs.rmdirSync('dummy/uploads', { recursive: true });
 		require('../../index')
 			.init({
 				destination: 'dummy/uploads',

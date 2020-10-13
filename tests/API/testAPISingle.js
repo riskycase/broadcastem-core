@@ -67,6 +67,7 @@ function testInvalidDownload(done, index) {
 
 describe('When sharing a single file', () => {
 	before(function (done) {
+		fs.rmdirSync('dummy/uploads', { recursive: true });
 		require('../../index')
 			.init({
 				files: ['dummy/dummy-down.txt'],
