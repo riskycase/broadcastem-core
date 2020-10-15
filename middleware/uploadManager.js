@@ -1,4 +1,6 @@
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 const fileManager = require('./fileManager');
 
@@ -8,7 +10,16 @@ const storage = multer.diskStorage({
 		cb(null, fileManager.destination());
 	},
 	filename: function (req, file, cb) {
-		cb(null, file.originalname);
+		const dest = fileManager.destination();
+		let number = 0;
+		let name;
+		do {
+			name = `${path.basename(
+				file.originalname,
+				path.extname(file.originalname)
+			)}${number-- || ''}${path.extname(file.originalname)}`;
+		} while (fs.existsSync(path.resolve(dest, name)));
+		cb(null, name);
 	},
 });
 

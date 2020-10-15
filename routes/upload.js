@@ -14,9 +14,10 @@ router.all('/', uploadManager.saveFiles, (req, res, next) => {
 		}
 		// Notifies the server to add new files for sharing
 		uploadManager.updateReceivedFiles(files);
-		res.send(
+		res.json(
 			files.map(file => ({
-				name: file.originalname,
+				sentFileName: file.originalname,
+				savedFileName: file.filename,
 				size: file.size,
 			}))
 		);
