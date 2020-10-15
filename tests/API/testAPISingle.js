@@ -67,6 +67,7 @@ function testInvalidDownload(done, index) {
 
 describe('When sharing a single file', () => {
 	before(function (done) {
+		fs.rmdirSync('dummy/uploads', { recursive: true });
 		require('../../index')
 			.init({
 				files: ['dummy/dummy-down.txt'],
@@ -110,7 +111,14 @@ describe('When sharing a single file', () => {
 				res.should.have.property('status', 200);
 				res.body.should.be.an('array');
 				res.body[0].should.have.property('size', upFileSize);
-				res.body[0].should.have.property('name', 'dummy-up.txt');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-up.txt'
+				);
+				res.body[0].should.have.property(
+					'savedFileName',
+					'dummy-up.txt'
+				);
 				done();
 			});
 	});

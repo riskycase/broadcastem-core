@@ -103,7 +103,14 @@ describe('Testing for correctness of response', () => {
 					'size',
 					fs.statSync('dummy/dummy-up.txt').size
 				);
-				res.body[0].should.have.property('name', 'dummy-up.txt');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-up.txt'
+				);
+				res.body[0].should.have.property(
+					'savedFileName',
+					'dummy-up.txt'
+				);
 				done();
 			});
 	});

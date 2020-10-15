@@ -1,3 +1,8 @@
+v3.0.0
+
+Save files with a numbered suffix if already exists in destination folder
+Use new format for response to show both original and new file names
+
 v2.2.4
 
 Update UIKit from 3.5.7 to 3.5.8
