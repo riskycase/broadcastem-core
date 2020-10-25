@@ -1,4 +1,5 @@
 const multer = require('multer');
+const busboy = require('busboy');
 const fs = require('fs');
 const path = require('path');
 
@@ -25,6 +26,33 @@ const storage = multer.diskStorage({
 
 // Creates an instance of Multer with the set options
 const upload = multer({ storage: storage });
+
+// Use busboy to save incoming files to disk
+module.exports.saveFiles2 = function (req, res, next) {
+	let writer = new busboy({ headers: req.headers });
+	req.files = [];
+	writer.on('file', (fieldname, file, filename, encoding, mimetype) => {
+		const dest = fileManager.destination();
+		let number = 0;
+		let name;
+		do
+			name = `${path.basename(filename, path.extname(filename))}${
+				number-- || ''
+			}${path.extname(filename)}`;
+		while (fs.existsSync(path.resolve(dest, name)));
+		let writeStream = fs.createWriteStream(path.resolve(dest, name));
+		writeStream.on('close', () => {
+			req.files.push({
+				originalname: filename,
+				filename: name,
+				size: writeStream.bytesWritten,
+			});
+		});
+		file.pipe(writeStream);
+	});
+	writer.on('finish', next);
+	req.pipe(writer);
+};
 
 // Exposes the created Multer instance to the router
 module.exports.saveFiles = upload.array('files[]');
