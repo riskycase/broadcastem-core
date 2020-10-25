@@ -29,6 +29,7 @@ const upload = multer({ storage: storage });
 
 // Use busboy to save incoming files to disk
 module.exports.saveFiles2 = function (req, res, next) {
+	if (req.method !== 'POST') return next();
 	let writer = new busboy({ headers: req.headers });
 	req.files = [];
 	writer.on('file', (fieldname, file, filename, encoding, mimetype) => {
