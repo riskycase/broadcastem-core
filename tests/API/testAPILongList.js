@@ -243,16 +243,6 @@ describe('When sharing with repititions', () => {
 			});
 	});
 
-	it('test', done => {
-		chai.request(app)
-			.get('/download/list')
-			.end((err, res) => {
-				res.body.should.be.a('array');
-				res.body.length.should.equal(12);
-				done();
-			});
-	});
-
 	it('it should download multiple files', done => {
 		chai.request(app)
 			.get('/download/specific')
