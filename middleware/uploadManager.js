@@ -40,17 +40,21 @@ module.exports.saveFiles2 = function (req, res, next) {
 				number-- || ''
 			}${path.extname(filename)}`;
 		while (fs.existsSync(path.resolve(dest, name)));
+		req.files.push({
+			path: path.resolve(dest, name),
+			originalname: filename,
+			filename: name,
+			size: -1,
+		});
 		let writeStream = fs.createWriteStream(path.resolve(dest, name));
 		writeStream.on('close', () => {
-			req.files.push({
-				originalname: filename,
-				filename: name,
-				size: writeStream.bytesWritten,
-			});
+			req.files.find(
+				file => file.path === path.resolve(dest, name)
+			).size = writeStream.bytesWritten;
+			if (!req.files.filter(file => file.size === -1).length) next();
 		});
 		file.pipe(writeStream);
 	});
-	writer.on('finish', next);
 	req.pipe(writer);
 };
 
