@@ -29,10 +29,10 @@ const upload = multer({ storage: storage });
 
 // Use busboy to save incoming files to disk
 module.exports.saveFiles2 = function (req, res, next) {
-	if (req.method !== 'POST') return next();
+	if (req.method !== 'POST' || !req.headers['content-type']) return next();
 	let writer = new busboy({ headers: req.headers });
-	req.files = [];
 	writer.on('file', (fieldname, file, filename, encoding, mimetype) => {
+		req.files = req.files || [];
 		const dest = fileManager.destination();
 		let number = 0;
 		let name;
@@ -55,6 +55,9 @@ module.exports.saveFiles2 = function (req, res, next) {
 			if (!req.files.filter(file => file.size === -1).length) next();
 		});
 		file.pipe(writeStream);
+	});
+	writer.on('finish', () => {
+		if (!req.files) next();
 	});
 	req.pipe(writer);
 };
