@@ -167,7 +167,7 @@ module.exports.updateReceivedFiles = function (uploadedFiles) {
 			receivedFiles.push({
 				path: value.path,
 				size: value.size,
-				folder: false,
+				folder: value.folder,
 			});
 		}
 	});
