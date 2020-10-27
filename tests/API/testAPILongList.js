@@ -185,64 +185,6 @@ describe('When sharing with repititions', () => {
 		testInvalidDownload(done, '3');
 	});
 
-	it('it should not generate duplicate downloads', done => {
-		chai.request(app)
-			.post('/upload')
-			.set('Content-Type', 'multipart/form-data')
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.end((err, res) => {
-				res.body.forEach(file => {
-					file.sentFileName.should.equal('dummy-up.txt');
-					file.size.should.equal(upFileSize);
-				});
-				testInvalidDownload(done, '12');
-			});
-	});
-
 	it('it should download multiple files', done => {
 		chai.request(app)
 			.get('/download/specific')
