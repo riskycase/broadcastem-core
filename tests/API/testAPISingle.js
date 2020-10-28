@@ -188,4 +188,18 @@ describe('When sharing a single file', () => {
 		'it should download a zip with name allFiles.zip at the end',
 		downloadAllTest
 	);
+
+	it('it should upload a zip and extract it', done => {
+		chai.request(app)
+			.post('/upload/zip')
+			.set('Content-Type', 'multipart/form-data')
+			.attach('files[]', fs.readFileSync('dummy/tests.zip'), 'tests.zip')
+			.end((err, res) => {
+				res.should.have.property('status', 200);
+				res.body.should.be.an('array');
+				res.body[0].should.have.property('sentFileName', 'tests.zip');
+				res.body[0].should.have.property('savedFileName', 'tests');
+				done();
+			});
+	});
 });
