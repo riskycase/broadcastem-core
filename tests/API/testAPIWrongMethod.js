@@ -13,7 +13,7 @@ describe('Testing for correctness of response', () => {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
 		require('../../index')
 			.init({
-				files: ['dummy/dummy-folder/dummy-small.txt'],
+				files: ['dummy/dummy-folder/dummy-sub/dummy-small.txt'],
 				destination: 'dummy/uploads',
 			})
 			.then(generatedApp => {
@@ -169,6 +169,111 @@ describe('Testing for correctness of response', () => {
 	it('it should not accept DELETE for /upload', done => {
 		chai.request(app)
 			.delete('/upload')
+			.end((err, res) => {
+				res.should.have.property('status', 400);
+				res.body.should.be.a('object');
+				res.body.should.have.property('status', 400);
+				res.body.should.have.property(
+					'message',
+					'Only POST requests are allowed on this route'
+				);
+				done();
+			});
+	});
+
+	it('it should only accept POST for /upload/zip with zip file supplied', done => {
+		chai.request(app)
+			.post('/upload/zip')
+			.set('Content-Type', 'multipart/form-data')
+			.attach(
+				'files[]',
+				fs.readFileSync('dummy/dummy-zip.zip'),
+				'dummy-zip.zip'
+			)
+			.end((err, res) => {
+				res.should.have.property('status', 200);
+				res.body.should.be.an('array');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-zip.zip'
+				);
+				res.body[0].should.have.property('savedFileName', 'dummy-zip');
+				done();
+			});
+	});
+
+	it('it should not accept POST for /upload/zip without any zip files attatched', done => {
+		chai.request(app)
+			.post('/upload/zip')
+			.set('Content-Type', 'multipart/form-data')
+			.attach(
+				'files[]',
+				fs.readFileSync('dummy/dummy-up.txt'),
+				'dummy-up.text'
+			)
+			.end((err, res) => {
+				res.should.have.property('status', 400);
+				res.body.should.be.a('object');
+				res.body.should.have.property('status', 400);
+				res.body.should.have.property('message', 'Please choose files');
+				done();
+			});
+	});
+
+	it('it should not accept POST for /upload/zip without any files attatched', done => {
+		chai.request(app)
+			.post('/upload/zip')
+			.end((err, res) => {
+				res.should.have.property('status', 400);
+				res.body.should.be.a('object');
+				res.body.should.have.property('status', 400);
+				res.body.should.have.property('message', 'Please choose files');
+				done();
+			});
+	});
+
+	it('it should not accept GET for /upload/zip', done => {
+		chai.request(app)
+			.get('/upload/zip')
+			.end((err, res) => {
+				res.should.have.property('status', 400);
+				res.body.should.be.a('object');
+				res.body.should.have.property('status', 400);
+				res.body.should.have.property(
+					'message',
+					'Only POST requests are allowed on this route'
+				);
+				done();
+			});
+	});
+
+	it('it should not accept HEAD for /upload/zip', done => {
+		chai.request(app)
+			.head('/upload/zip')
+			.end((err, res) => {
+				res.should.have.property('status', 400);
+				done();
+			});
+	});
+
+	it('it should not accept PUT for /upload/zip', done => {
+		chai.request(app)
+			.put('/upload/zip')
+			.end((err, res) => {
+				res.should.have.property('status', 400);
+				res.body.should.be.a('object');
+				res.body.should.have.property('status', 400);
+				res.body.should.have.property(
+					'message',
+					'Only POST requests are allowed on this route'
+				);
+				done();
+			});
+	});
+
+	it('it should not accept DELETE for /upload/zip', done => {
+		chai.request(app)
+			.delete('/upload/zip')
 			.end((err, res) => {
 				res.should.have.property('status', 400);
 				res.body.should.be.a('object');
@@ -388,20 +493,6 @@ describe('Testing for correctness of response', () => {
 					'message',
 					'Only GET requests are allowed on this route'
 				);
-				done();
-			});
-	});
-
-	it('it should upload a zip and extract it', done => {
-		chai.request(app)
-			.post('/upload/zip')
-			.set('Content-Type', 'multipart/form-data')
-			.attach('files[]', fs.readFileSync('dummy/tests.zip'), 'tests.zip')
-			.end((err, res) => {
-				res.should.have.property('status', 200);
-				res.body.should.be.an('array');
-				res.body[0].should.have.property('sentFileName', 'tests.zip');
-				res.body[0].should.have.property('savedFileName', 'tests');
 				done();
 			});
 	});

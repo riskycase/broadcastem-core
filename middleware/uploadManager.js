@@ -61,11 +61,12 @@ function extracter(destination, zipstream) {
 			.on('error', reject)
 			.on('entry', entry => {
 				entries++;
-				if (entry.type === 'Directory')
+				if (entry.type === 'Directory') {
+					entries--;
 					fs.mkdirSync(path.resolve(destination, entry.path), {
 						recursive: true,
 					});
-				else {
+				} else {
 					fileWriter(
 						path.resolve(destination, entry.path),
 						entry

@@ -103,7 +103,7 @@ function displayFiles(files) {
 // UIkit js to control file upload
 const bar = document.getElementById('js-progressbar');
 UIkit.upload('.js-upload', {
-	url: '/upload',
+	url: '/upload/zip',
 	multiple: true,
 	type: 'multipart/form-data',
 	loadStart: setBarValue,

@@ -185,6 +185,45 @@ describe('When sharing with repititions', () => {
 		testInvalidDownload(done, '3');
 	});
 
+	it('it should upload multiple files', done => {
+		chai.request(app)
+			.post('/upload')
+			.set('Content-Type', 'multipart/form-data')
+			.attach(
+				'files[]',
+				fs.readFileSync('dummy/dummy-up.txt'),
+				'dummy-up.txt'
+			)
+			.attach(
+				'files[]',
+				fs.readFileSync('dummy/dummy-down.txt'),
+				'dummy-down.txt'
+			)
+			.end((err, res) => {
+				res.should.have.property('status', 200);
+				res.body.should.be.an('array');
+				res.body[0].should.have.property('size', upFileSize);
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-up.txt'
+				);
+				res.body[0].should.have.property(
+					'savedFileName',
+					'dummy-up-1.txt'
+				);
+				res.body[1].should.have.property('size', downFileSize);
+				res.body[1].should.have.property(
+					'sentFileName',
+					'dummy-down.txt'
+				);
+				res.body[1].should.have.property(
+					'savedFileName',
+					'dummy-down.txt'
+				);
+				done();
+			});
+	});
+
 	it('it should download multiple files', done => {
 		chai.request(app)
 			.get('/download/specific')
@@ -215,12 +254,19 @@ describe('When sharing with repititions', () => {
 		chai.request(app)
 			.post('/upload/zip')
 			.set('Content-Type', 'multipart/form-data')
-			.attach('files[]', fs.readFileSync('dummy/tests.zip'), 'tests.zip')
+			.attach(
+				'files[]',
+				fs.readFileSync('dummy/dummy-zip.zip'),
+				'dummy-zip.zip'
+			)
 			.end((err, res) => {
 				res.should.have.property('status', 200);
 				res.body.should.be.an('array');
-				res.body[0].should.have.property('sentFileName', 'tests.zip');
-				res.body[0].should.have.property('savedFileName', 'tests');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-zip.zip'
+				);
+				res.body[0].should.have.property('savedFileName', 'dummy-zip');
 				done();
 			});
 	});
