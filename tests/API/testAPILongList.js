@@ -185,7 +185,7 @@ describe('When sharing with repititions', () => {
 		testInvalidDownload(done, '3');
 	});
 
-	it('it should not generate duplicate downloads', done => {
+	it('it should upload multiple files', done => {
 		chai.request(app)
 			.post('/upload')
 			.set('Content-Type', 'multipart/form-data')
@@ -196,59 +196,30 @@ describe('When sharing with repititions', () => {
 			)
 			.attach(
 				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
-			)
-			.attach(
-				'files[]',
-				fs.readFileSync('dummy/dummy-up.txt'),
-				'dummy-up.txt'
+				fs.readFileSync('dummy/dummy-down.txt'),
+				'dummy-down.txt'
 			)
 			.end((err, res) => {
-				res.body.forEach(file => {
-					file.sentFileName.should.equal('dummy-up.txt');
-					file.size.should.equal(upFileSize);
-				});
-				testInvalidDownload(done, '12');
-			});
-	});
-
-	it('test', done => {
-		chai.request(app)
-			.get('/download/list')
-			.end((err, res) => {
-				res.body.should.be.a('array');
-				res.body.length.should.equal(12);
+				res.should.have.property('status', 200);
+				res.body.should.be.an('array');
+				res.body[0].should.have.property('size', upFileSize);
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-up.txt'
+				);
+				res.body[0].should.have.property(
+					'savedFileName',
+					'dummy-up-1.txt'
+				);
+				res.body[1].should.have.property('size', downFileSize);
+				res.body[1].should.have.property(
+					'sentFileName',
+					'dummy-down.txt'
+				);
+				res.body[1].should.have.property(
+					'savedFileName',
+					'dummy-down.txt'
+				);
 				done();
 			});
 	});
@@ -278,4 +249,25 @@ describe('When sharing with repititions', () => {
 		'it should download a zip with name allFiles.zip at the end',
 		downloadAllTest
 	);
+
+	it('it should upload a zip and extract it', done => {
+		chai.request(app)
+			.post('/upload/zip')
+			.set('Content-Type', 'multipart/form-data')
+			.attach(
+				'files[]',
+				fs.readFileSync('dummy/dummy-zip.zip'),
+				'dummy-zip.zip'
+			)
+			.end((err, res) => {
+				res.should.have.property('status', 200);
+				res.body.should.be.an('array');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-zip.zip'
+				);
+				res.body[0].should.have.property('savedFileName', 'dummy-zip');
+				done();
+			});
+	});
 });

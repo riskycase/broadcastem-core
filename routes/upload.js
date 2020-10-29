@@ -1,8 +1,13 @@
 const router = require('express').Router();
 const uploadManager = require('../middleware/uploadManager');
 
-/* Receive incoming files */
-router.all('/', uploadManager.saveFiles, (req, res, next) => {
+/*
+ * Runs appropriate action based on data received
+ *
+ * Takes request, response objects and next callback, returns callback result
+ * on error
+ */
+function uploadResponder(req, res, next) {
 	if (req.method === 'POST') {
 		// Gets information of the files that were uploaded
 		const files = req.files;
@@ -26,6 +31,12 @@ router.all('/', uploadManager.saveFiles, (req, res, next) => {
 		error.status = 400;
 		return next(error);
 	}
-});
+}
+
+/* Receives incoming files */
+router.all('/', uploadManager.saveFiles, uploadResponder);
+
+/* Receives incoming folders as zip and extracts them */
+router.all('/zip', uploadManager.saveZips, uploadResponder);
 
 module.exports = router;
