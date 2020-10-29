@@ -13,7 +13,7 @@ describe('Miscalleneous tests - log level 2', () => {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
 		require('../../index')
 			.init({
-				files: ['dummy/dummy-folder/dummy-small.txt'],
+				files: ['dummy/dummy-folder/dummy-sub/dummy-small.txt'],
 				destination: 'dummy/uploads',
 				loggingLevel: 2,
 				stdout: devnull(),
@@ -34,7 +34,8 @@ describe('Miscalleneous tests - log level 2', () => {
 				res.body[0].should.have.property('isFolder', false);
 				res.body[0].should.have.property(
 					'size',
-					fs.statSync('dummy/dummy-folder/dummy-small.txt').size
+					fs.statSync('dummy/dummy-folder/dummy-sub/dummy-small.txt')
+						.size
 				);
 				res.body[0].should.have.property('index', 0);
 				done();
@@ -89,6 +90,27 @@ describe('Miscalleneous tests - log level 2', () => {
 					'savedFileName',
 					'dummy-up.txt'
 				);
+				done();
+			});
+	});
+
+	it('it should upload a zip and extract it', done => {
+		chai.request(app)
+			.post('/upload/zip')
+			.set('Content-Type', 'multipart/form-data')
+			.attach(
+				'files[]',
+				fs.readFileSync('dummy/dummy-zip.zip'),
+				'dummy-zip.zip'
+			)
+			.end((err, res) => {
+				res.should.have.property('status', 200);
+				res.body.should.be.an('array');
+				res.body[0].should.have.property(
+					'sentFileName',
+					'dummy-zip.zip'
+				);
+				res.body[0].should.have.property('savedFileName', 'dummy-zip');
 				done();
 			});
 	});

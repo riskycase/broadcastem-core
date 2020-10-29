@@ -62,7 +62,7 @@
 			<li>
 				<div
 					class="js-upload uk-placeholder uk-text-center"
-					id="uploadArea"
+					id="fileUploadArea"
 				>
 					<span uk-icon="icon: cloud-upload"></span
 					><span class="uk-text-middle"
@@ -72,6 +72,22 @@
 						<input type="file" multiple="" /><span class="uk-link"
 							>selecting them</span
 						>
+					</div>
+				</div>
+				<div
+					class="js-upload uk-placeholder uk-text-center"
+					id="zipUploadArea"
+				>
+					<span uk-icon="icon: folder"></span
+					><span class="uk-text-middle"
+						>Send zip files by dropping them here or
+					</span>
+					<div uk-form-custom="">
+						<input
+							type="file"
+							multiple=""
+							accept="application/zip"
+						/><span class="uk-link">selecting them</span>
 					</div>
 				</div>
 				<progress
