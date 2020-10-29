@@ -100,23 +100,37 @@ function displayFiles(files) {
 		).innerHTML = `<div class="uk-alert-primary uk-align-center uk-text-center uk-width-1-1" uk-alert>No files selected to share</div>`;
 }
 
-// UIkit js to control file upload
 const bar = document.getElementById('js-progressbar');
-UIkit.upload('.js-upload', {
-	url: '/upload/zip',
-	multiple: true,
-	type: 'multipart/form-data',
-	loadStart: setBarValue,
-	progress: setBarValue,
-	loadEnd: setBarValue,
-	completeAll: function () {
-		setTimeout(function () {
-			bar.setAttribute('hidden', 'hidden');
-		}, 1000);
-		alert('Files uploaded, will be available for sharing now');
-		loadFiles();
-	},
-});
+/*
+ * Generates an upload object for normal files and zip files
+ */
+function uploadObject(zip) {
+	return {
+		url: zip ? '/upload' : '/upload/zip',
+		multiple: true,
+		type: 'multipart/form-data',
+		loadStart: setBarValue,
+		progress: setBarValue,
+		loadEnd: setBarValue,
+		completeAll: function () {
+			setTimeout(function () {
+				bar.setAttribute('hidden', 'hidden');
+			}, 1000);
+			alert(
+				`${
+					zip ? 'Files uploaded' : 'Zips uploaded and extracted'
+				}, will be available for sharing now`
+			);
+			loadFiles();
+		},
+	};
+}
+
+// UIkit js to control file upload
+UIkit.upload('#fileUploadArea', uploadObject(false));
+
+// UIkit js to control zip upload
+UIkit.upload('#zipUploadArea', uploadObject(true));
 
 /*
  * Sets the value for the progress bar
