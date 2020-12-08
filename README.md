@@ -3,10 +3,6 @@
 A file server based on node.js that allows sharing files over HTTP on the same
 local network, and possibly over the internet if bridging is used
 
-## Note:
-
-The inbuilt CLI file will be removed by the end of 2020, please use the package broadcastem-cli if you need to use this app on a terminal
-
 ## Badges
 
 [![Test Status](https://img.shields.io/gitlab/pipeline/riskycase/broadcastem-core/trunk?label=Tests&logo=Gitlab)](https://gitlab.com/riskycase/broadcastem-core)
