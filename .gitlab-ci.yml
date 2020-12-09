@@ -16,11 +16,6 @@ Build Latest:
         key: node_modules-latest
         paths:
             - node_modules/
-    artifacts:
-        untracked: true
-        expire_in: 60s
-        paths:
-            - node_mudules/
     image: node:latest
     stage: build
     needs: []
@@ -33,6 +28,7 @@ Test Latest API:
     image: node:latest
     before_script:
         - yarn global add nyc
+        - yarn install --frozen-lockfile
     script:
         - nyc --silent yarn test:API --reporter mocha-junit-reporter
     artifacts:
@@ -48,6 +44,7 @@ Test Latest Options:
     image: node:latest
     before_script:
         - yarn global add nyc
+        - yarn install --frozen-lockfile
     script:
         - nyc --silent yarn test:Startup --reporter mocha-junit-reporter
     artifacts:
@@ -102,6 +99,8 @@ Lint:
     stage: post-test
     needs: ['Build Latest', 'Build LTS']
     image: node:lts
+    before_script:
+        - yarn install --frozen-lockfile
     script:
         - yarn prettier --check .
 
