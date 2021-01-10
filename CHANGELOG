@@ -1,3 +1,7 @@
+v4.0.0
+
+Remove inbuilt CLI file
+
 v3.1.0
 
 Add a new /upload/zip route to accept zip files which will be extracted on upload
