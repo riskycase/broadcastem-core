@@ -6,7 +6,7 @@
 
 const http = require('http');
 const path = require('path');
-const broadcastemCore = require('./index');
+const broadcastemCore = require('./dist/index');
 const fs = require('fs');
 const os = require('os');
 
@@ -124,8 +124,7 @@ function onListening() {
  * Start Express app from the CLI flags
  */
 
-broadcastemCore
-	.init(argv)
+broadcastemCore(argv)
 	.then(app => {
 		/**
 		 * Create HTTP server.

@@ -11,15 +11,13 @@ var app;
 describe('Testing for correctness of response', () => {
 	before(function (done) {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
-		require('../../index')
-			.init({
-				files: ['dummy/dummy-folder/dummy-sub/dummy-small.txt'],
-				destination: 'dummy/uploads',
-			})
-			.then(generatedApp => {
-				app = generatedApp;
-				done();
-			});
+		require('../../dist/index')({
+			files: ['dummy/dummy-folder/dummy-sub/dummy-small.txt'],
+			destination: 'dummy/uploads',
+		}).then(generatedApp => {
+			app = generatedApp;
+			done();
+		});
 	});
 
 	it('it should only accept GET for /', done => {

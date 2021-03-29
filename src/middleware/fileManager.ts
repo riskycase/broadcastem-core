@@ -1,20 +1,20 @@
-const fs = require('fs');
-const rl = require('readline');
-const path = require('path');
+import fs from 'fs';
+import rl from 'readline';
+import path from 'path';
 
 const fileHandler = fs.promises;
 
-let directFiles = [];
-let listFiles;
-let receivedFiles = [];
-let destination;
+let directFiles: Array<file> = [];
+let listFiles: Array<file>;
+let receivedFiles: Array<file> = [];
+let destination: string;
 
 /*
  * Checks if a path is present in an array
  *
  * Takes array of file objects, path and returns truth-y or false-y value
  */
-function isPathPresent(arr, path) {
+function isPathPresent(arr: Array<file>, path: string) {
 	return arr.find(value => value.path === path);
 }
 
@@ -23,7 +23,7 @@ function isPathPresent(arr, path) {
  *
  * Takes path of file and returns nothing
  */
-function addPath(path) {
+function addPath(path: string): void {
 	if (!isPathPresent(directFiles, path) && !isPathPresent(listFiles, path))
 		listFiles.push(fileMaker(path));
 }
@@ -33,12 +33,12 @@ function addPath(path) {
  *
  * Takes path of file and returns promise which resolves when all the specified paths are valid
  */
-function readLines(listPath) {
-	return new Promise((resolve, reject) => {
+function readLines(listPath: string): Promise<void> {
+	return new Promise<void>((resolve, reject) => {
 		// Opens the list file for reading from it
-		const readInterface = rl.createInterface({
+		const readInterface: rl.Interface = rl.createInterface({
 			input: fs.createReadStream(listPath),
-			console: false,
+			terminal: false,
 		});
 
 		// Resolves the promise if the file was read successfully
@@ -47,7 +47,7 @@ function readLines(listPath) {
 			calcSize(listFiles);
 		});
 
-		let lineNumber = 1;
+		let lineNumber: number = 1;
 
 		readInterface.on('line', line => {
 			if (fs.existsSync(line)) addPath(line);
@@ -68,7 +68,7 @@ function readLines(listPath) {
  *
  * Takes path and returns promise which when resolved gives the size
  */
-function getSize(givenPath) {
+function getSize(givenPath: string): Promise<number> {
 	return new Promise((resolve, reject) => {
 		fileHandler.stat(givenPath).then(stats => {
 			if (!stats.isDirectory()) setImmediate(resolve, stats.size);
@@ -80,7 +80,10 @@ function getSize(givenPath) {
 					)
 					.then(paths => Promise.all(paths.map(getSize)))
 					.then(sizes =>
-						sizes.reduce((total, size) => total + size, stats.size)
+						sizes.reduce(
+							(total: number, size: number) => total + size,
+							stats.size
+						)
 					)
 					.then(resolve);
 		});
@@ -92,7 +95,7 @@ function getSize(givenPath) {
  *
  * Takes array and index, however index is only used internally and does not return anything
  */
-function calcSize(arr, index = 0) {
+function calcSize(arr: Array<file>, index: number = 0) {
 	if (arr[index])
 		getSize(arr[index].path).then(size => {
 			arr[index].size = size;
@@ -105,11 +108,13 @@ function calcSize(arr, index = 0) {
  *
  * Takes path and returns file object
  */
-function fileMaker(path) {
+function fileMaker(filePath: string): file {
 	return {
-		path: path,
+		path: filePath,
 		size: undefined,
-		folder: fs.existsSync(path) && fs.statSync(path).isDirectory(),
+		folder: fs.existsSync(filePath) && fs.statSync(filePath).isDirectory(),
+		originalname: path.basename(filePath),
+		filename: path.basename(filePath),
 	};
 }
 
@@ -118,7 +123,7 @@ function fileMaker(path) {
  *
  * Takes options object and returns promise that resolves when the basic setup is successfully completed
  */
-function initFiles(options) {
+function initFiles(options: options): Promise<void> {
 	// Set files to empty array if not defined
 	if (!Array.isArray(options.files)) options.files = [];
 
@@ -143,8 +148,7 @@ function initFiles(options) {
 
 	// Resets the receivedFiles array only if asked to do so
 	if (options.restart) receivedFiles = [];
-
-	return new Promise((resolve, reject) => {
+	return new Promise<void>((resolve, reject) => {
 		// Reads a list file if it is specified, else resolves immediately
 		if (options.list)
 			readLines(options.list)
@@ -154,24 +158,17 @@ function initFiles(options) {
 	});
 }
 
-// Exports the initialisation function
-module.exports.initFiles = initFiles;
-
 // Returns all the file objects as a single array
-module.exports.getFiles = () => directFiles.concat(listFiles, receivedFiles);
-
+function getFiles(): Array<file> {
+	return directFiles.concat(listFiles, receivedFiles);
+}
 // Updates the array whenever a new file is successfully sent by a client
-module.exports.updateReceivedFiles = function (uploadedFiles) {
+function updateReceivedFiles(uploadedFiles: Array<file>): void {
 	uploadedFiles.forEach(function (value) {
 		if (!isPathPresent(receivedFiles, value.path)) {
-			receivedFiles.push({
-				path: value.path,
-				size: value.size,
-				folder: value.folder,
-			});
+			receivedFiles.push(value);
 		}
 	});
-};
+}
 
-// Exposes the upload destination
-module.exports.destination = () => destination;
+export { initFiles, getFiles, destination, updateReceivedFiles };

@@ -11,17 +11,15 @@ var app;
 describe('Miscalleneous tests - log level 1', () => {
 	before(function (done) {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
-		require('../../index')
-			.init({
-				files: ['dummy/dummy-folder/dummy-sub/dummy-small.txt'],
-				destination: 'dummy/uploads',
-				loggingLevel: 1,
-				stdout: devnull(),
-			})
-			.then(generatedApp => {
-				app = generatedApp;
-				done();
-			});
+		require('../../dist/index')({
+			files: ['dummy/dummy-folder/dummy-sub/dummy-small.txt'],
+			destination: 'dummy/uploads',
+			loggingLevel: 1,
+			stdout: devnull(),
+		}).then(generatedApp => {
+			app = generatedApp;
+			done();
+		});
 	});
 
 	it('it should return correct API response', done => {

@@ -1,5 +1,5 @@
-const fileManager = require('./fileManager');
-const path = require('path');
+import { getFiles } from './fileManager';
+import path from 'path';
 
 /*
  * Forms a raw object which will be used in /download/list endpoint
@@ -14,7 +14,6 @@ const formRaw = (file, index) => ({
 });
 
 // Exposes the raw generator to be used in /download/list
-module.exports.fileList = () => fileManager.getFiles().map(formRaw);
+const fileList = () => getFiles().map(formRaw);
 
-// Passes on the fil objects as is since they contain the paths
-module.exports.getFiles = fileManager.getFiles;
+export { fileList, getFiles };

@@ -106,7 +106,7 @@ const bar = document.getElementById('js-progressbar');
  */
 function uploadObject(zip) {
 	return {
-		url: zip ? '/upload' : '/upload/zip',
+		url: zip ? '/upload/zip' : '/upload',
 		multiple: true,
 		type: 'multipart/form-data',
 		loadStart: setBarValue,
@@ -118,7 +118,7 @@ function uploadObject(zip) {
 			}, 1000);
 			alert(
 				`${
-					zip ? 'Files uploaded' : 'Zips uploaded and extracted'
+					zip ? 'Zips uploaded and extracted' : 'Files uploaded'
 				}, will be available for sharing now`
 			);
 			loadFiles();
