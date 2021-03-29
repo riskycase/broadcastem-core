@@ -68,16 +68,14 @@ function testInvalidDownload(done, index) {
 describe('When sharing with repititions', () => {
 	before(function (done) {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
-		require('../../index')
-			.init({
-				files: ['dummy/dummy-down.txt'],
-				destination: 'dummy/uploads',
-				list: 'dummy/dummy-list-long.txt',
-			})
-			.then(generatedApp => {
-				app = generatedApp;
-				done();
-			});
+		require('../../dist/index')({
+			files: ['dummy/dummy-down.txt'],
+			destination: 'dummy/uploads',
+			list: 'dummy/dummy-list-long.txt',
+		}).then(generatedApp => {
+			app = generatedApp;
+			done();
+		});
 	});
 
 	it('it should load homepage', done => {

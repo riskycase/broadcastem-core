@@ -10,15 +10,13 @@ var app;
 describe('When not removing files shared before', () => {
 	before(function (done) {
 		fs.rmdirSync('dummy/uploads', { recursive: true });
-		require('../../index')
-			.init({
-				destination: 'dummy/uploads',
-				restart: false,
-			})
-			.then(generatedApp => {
-				app = generatedApp;
-				done();
-			});
+		require('../../dist/index')({
+			destination: 'dummy/uploads',
+			restart: false,
+		}).then(generatedApp => {
+			app = generatedApp;
+			done();
+		});
 	});
 
 	it('it should return have the files uploaded in previous session', done => {

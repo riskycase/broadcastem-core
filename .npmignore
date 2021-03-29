@@ -31,7 +31,6 @@ bower_components
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
-dist
 
 # Dependency directories
 node_modules/
@@ -62,11 +61,18 @@ typings/
 .next
 
 # uploaded files
-uploads/*
+uploads/
 
 # test files
-tests/*
-dummy/*
+tests/
+dummy/
+
+# source files
+src/
+
+# dot files
+.*
+tsconfig.json
 
 #Junit test results
 test-results.xml

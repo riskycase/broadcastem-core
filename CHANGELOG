@@ -1,3 +1,9 @@
+v5.0.0
+
+Migrate main files of module to typescript
+Hotfix for uploads broken in browser in v4.0.0
+Change module load method
+
 v4.0.0
 
 Remove inbuilt CLI file

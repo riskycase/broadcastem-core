@@ -21,6 +21,11 @@ Build Latest:
     needs: []
     script:
         - yarn install --frozen-lockfile
+        - yarn global add typescript
+        - tsc
+    artifacts:
+        paths:
+            - dist/
 
 Test Latest API:
     stage: testing
