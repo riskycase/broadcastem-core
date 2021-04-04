@@ -36,7 +36,7 @@ Install using
 ```js
 const core = require('broadcastem-core');
 
-core.init(options).then(app => {
+core(options).then(app => {
 	//Use app
 });
 ```
