@@ -1,3 +1,7 @@
+v5.0.2
+
+Fix compiled code not being published
+
 v5.0.1
 
 Make pending changes to README.md
