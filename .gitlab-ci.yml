@@ -42,6 +42,7 @@ Test Latest API:
         expire_in: 60s
         paths:
             - .nyc_output/
+            - dist/
 
 Test Latest Options:
     stage: testing
