@@ -14,7 +14,23 @@ jobs:
             - run: yarn install --frozen-lockfile
             - run: yarn global add typescript
             - run: tsc
+            - run: tar -zcf node_modules.tgz node_modules/
             - name: Upload artifacts LTS
               uses: actions/upload-artifact@v2
               with:
-                  path: node_modules/
+                  name: modules_lts
+                  path: node_modules.tgz
+
+    test-api-latest:
+        runs-on: ubuntu-latest
+        needs: [build-latest]
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 14.x
+            - uses: actions/download-artifact@v2
+              with:
+                  name: modules_lts
+            - run: tar -zxf node_modules.tgz
+            - run: ls -la
