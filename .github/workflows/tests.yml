@@ -3,7 +3,7 @@ name: Testing
 on: [push]
 
 jobs:
-    build-latest:
+    build-lts:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -14,16 +14,16 @@ jobs:
             - run: yarn install --frozen-lockfile
             - run: yarn global add typescript
             - run: tsc
-            - run: tar -zcf node_modules.tgz node_modules/
+            - run: tar -zcf build_lts.tgz dist/
             - name: Upload artifacts LTS
               uses: actions/upload-artifact@v2
               with:
-                  name: modules_lts
-                  path: node_modules.tgz
+                  name: build_lts
+                  path: build_lts.tgz
 
-    test-api-latest:
+    test-api-lts:
         runs-on: ubuntu-latest
-        needs: [build-latest]
+        needs: [build-lts]
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v2
@@ -31,6 +31,6 @@ jobs:
                   node-version: 14.x
             - uses: actions/download-artifact@v2
               with:
-                  name: modules_lts
-            - run: tar -zxf node_modules.tgz
+                  name: build_lts
+            - run: tar -zxf build_lts.tgz
             - run: ls -la
