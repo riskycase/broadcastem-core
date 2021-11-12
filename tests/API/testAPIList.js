@@ -67,7 +67,8 @@ function testInvalidDownload(done, index) {
 
 describe('When sharing from a list', () => {
 	before(function (done) {
-		fs.rmdirSync('dummy/uploads', { recursive: true });
+		if (fs.existsSync('dummy/uploads'))
+			fs.rmSync('dummy/uploads', { recursive: true });
 		require('../../dist/index')({
 			files: [],
 			destination: 'dummy/uploads',
