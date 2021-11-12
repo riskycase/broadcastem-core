@@ -10,7 +10,8 @@ var app;
 
 describe('Testing for correctness of response', () => {
 	before(function (done) {
-		fs.rmdirSync('dummy/uploads', { recursive: true });
+		if (fs.existsSync('dummy/uploads'))
+			fs.rmSync('dummy/uploads', { recursive: true });
 		require('../../dist/index')({
 			files: ['dummy/dummy-folder/dummy-sub/dummy-small.txt'],
 			destination: 'dummy/uploads',
