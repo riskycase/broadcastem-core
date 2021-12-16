@@ -20,8 +20,8 @@ Build Latest:
     stage: build
     needs: []
     script:
-        - yarn install --frozen-lockfile
-        - yarn global add typescript
+        - npm ci
+        - npm install -g typescript
         - tsc
     artifacts:
         paths:
@@ -32,10 +32,10 @@ Test Latest API:
     needs: ['Build Latest']
     image: node:latest
     before_script:
-        - yarn global add nyc
-        - yarn install --frozen-lockfile
+        - npm install -g nyc
+        - npm ci
     script:
-        - nyc --silent yarn test:API --reporter mocha-junit-reporter
+        - nyc --silent npm run test:API --reporter mocha-junit-reporter
     artifacts:
         reports:
             junit: test-results.xml
@@ -49,10 +49,10 @@ Test Latest Options:
     needs: ['Build Latest']
     image: node:latest
     before_script:
-        - yarn global add nyc
-        - yarn install --frozen-lockfile
+        - npm install -g nyc
+        - npm ci
     script:
-        - nyc --silent yarn test:Startup --reporter mocha-junit-reporter
+        - nyc --silent npm run test:Startup --reporter mocha-junit-reporter
     artifacts:
         reports:
             junit: test-results.xml
@@ -65,7 +65,7 @@ Coverage Latest:
     needs: ['Test Latest Options', 'Test Latest API']
     image: node:latest
     before_script:
-        - yarn global add nyc
+        - npm install -g nyc
     script:
         - nyc report --reporter text
 
@@ -90,7 +90,7 @@ Coverage LTS:
     needs: ['Test LTS Options', 'Test LTS API']
     image: node:lts
     before_script:
-        - yarn global add nyc
+        - npm install -g nyc
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
         - ./cc-test-reporter before-build
@@ -106,9 +106,9 @@ Lint:
     needs: ['Build Latest', 'Build LTS']
     image: node:lts
     before_script:
-        - yarn install --frozen-lockfile
+        - npm ci
     script:
-        - yarn prettier --check .
+        - npx prettier --check .
 
 Publish:
     stage: publish
@@ -124,6 +124,6 @@ Publish:
     before_script:
         - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
     script:
-        - yarn publish
+        - npm publish
     only:
         - tags

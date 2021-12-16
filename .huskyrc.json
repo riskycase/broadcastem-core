@@ -1,5 +1,5 @@
 {
 	"hooks": {
-		"pre-commit": "yarn prettier --write . && git add ."
+		"pre-commit": "npx prettier --write . && git add ."
 	}
 }
