@@ -1,0 +1,19 @@
+name: Code formatting check
+on:
+    push:
+    pull_request:
+
+jobs:
+    format_check:
+        name: Check code formatting
+        runs-on: ubuntu-latest
+        container: node:latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 'lts/*'
+                  cache: 'npm'
+                  cache-dependency-path: package-lock.json
+            - run: npm ci
+            - run: npx prettier --check .
